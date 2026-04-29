@@ -6,20 +6,13 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="課程管理">
-<title>健身課程管理 🌸</title>
+<title>健身課程管理</title>
 <style>
 :root {
-  --pink: #FF8FAB;
-  --pink-light: #FFB3C6;
-  --pink-pale: #FFF0F3;
-  --pink-mid: #FFCCD5;
-  --peach: #FFB347;
-  --peach-pale: #FFF4E6;
-  --lavender: #C8A2C8;
-  --lavender-pale: #F3EEFF;
-  --mint: #98D8C8;
-  --mint-pale: #E8FAF5;
-  --yellow-pale: #FFFBE6;
+  --primary: #FF8FAB;
+  --primary-light: #FFB3C6;
+  --primary-pale: #FFF0F3;
+  --primary-mid: #FFCCD5;
   --bg: #FFF5F7;
   --bg2: #FFE8EE;
   --bg3: #FFD6E0;
@@ -29,112 +22,118 @@
   --text3: #C4A0AF;
   --border: rgba(255,143,171,0.25);
   --border2: rgba(255,143,171,0.45);
-  --radius: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --shadow: 0 2px 12px rgba(255,143,171,0.15);
-  --shadow-sm: 0 1px 6px rgba(255,143,171,0.12);
+  --accent1: #C8A2C8;
+  --accent1-pale: #F3EEFF;
+  --accent2: #98D8C8;
+  --accent2-pale: #E8FAF5;
+  --warn: #FFB347;
+  --warn-pale: #FFF4E6;
+  --danger: #FF6B8A;
+  --danger-pale: #FFF0F3;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; transition: background 0.3s; }
 input, textarea, select, button { font-family: inherit; }
-
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg2); }
-::-webkit-scrollbar-thumb { background: var(--pink-light); border-radius: 4px; }
-
+::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
 .app { max-width: 600px; margin: 0 auto; min-height: 100vh; }
 
 /* Header */
-.header { background: linear-gradient(135deg, #FF8FAB 0%, #FFB3C6 100%); padding: env(safe-area-inset-top, 44px) 16px 0; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 16px rgba(255,143,171,0.3); }
-.header-title { font-size: 18px; font-weight: 700; color: white; text-align: center; padding: 12px 0 0; letter-spacing: 1px; text-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-.header-subtitle { font-size: 11px; color: rgba(255,255,255,0.85); text-align: center; margin-top: 2px; }
-.tab-bar { display: flex; gap: 0; margin-top: 10px; overflow-x: auto; }
+.header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: env(safe-area-inset-top, 44px) 16px 0; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 16px rgba(0,0,0,0.12); }
+.header-top { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 0; }
+.header-title { font-size: 17px; font-weight: 700; color: white; letter-spacing: 0.5px; }
+.theme-btn { background: rgba(255,255,255,0.25); border: none; color: white; font-size: 12px; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+.tab-bar { display: flex; margin-top: 8px; overflow-x: auto; }
 .tab-bar::-webkit-scrollbar { display: none; }
-.tab { flex: 1; padding: 10px 6px; font-size: 12px; cursor: pointer; border: none; background: none; color: rgba(255,255,255,0.75); border-bottom: 3px solid transparent; text-align: center; white-space: nowrap; min-width: 60px; }
-.tab.active { color: white; border-bottom-color: white; font-weight: 600; }
+.tab { flex: 1; padding: 10px 4px; font-size: 12px; cursor: pointer; border: none; background: none; color: rgba(255,255,255,0.7); border-bottom: 3px solid transparent; text-align: center; white-space: nowrap; min-width: 52px; font-weight: 500; }
+.tab.active { color: white; border-bottom-color: white; font-weight: 700; }
 
 /* Content */
 .content { padding: 16px; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
 
 /* Cards */
-.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
-.card-pink { background: linear-gradient(135deg, #FFF0F3 0%, #FFE8EE 100%); border-color: var(--pink-light); }
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
 
 /* Stats */
 .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
-.stat-card { background: var(--white); border-radius: var(--radius); padding: 10px 8px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+.stat-card { background: var(--white); border-radius: 12px; padding: 10px 8px; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.06); border: 1px solid var(--border); }
 .stat-label { font-size: 10px; color: var(--text2); margin-bottom: 3px; }
-.stat-num { font-size: 22px; font-weight: 700; color: var(--pink); }
-.stat-num.warn { color: var(--peach); }
-.stat-num.danger { color: #FF6B8A; }
+.stat-num { font-size: 22px; font-weight: 700; color: var(--primary); }
+.stat-num.warn { color: var(--warn); }
+.stat-num.danger { color: var(--danger); }
 
 /* Alerts */
-.alert { border-radius: var(--radius); padding: 10px 14px; margin-bottom: 10px; }
-.alert-warn { background: var(--peach-pale); border: 1px solid #FFD08A; }
-.alert-danger { background: #FFF0F3; border: 1px solid var(--pink-light); }
-.alert-mint { background: var(--mint-pale); border: 1px solid var(--mint); }
-.alert-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.alert-warn .alert-title { color: #B87800; }
-.alert-danger .alert-title { color: #CC3355; }
-.alert-mint .alert-title { color: #2D8B72; }
+.alert { border-radius: 12px; padding: 10px 14px; margin-bottom: 10px; }
+.alert-warn { background: var(--warn-pale); border: 1px solid #FFD08A; }
+.alert-danger { background: var(--danger-pale); border: 1px solid var(--primary-light); }
+.alert-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.alert-warn .alert-title { color: #8B5E00; }
+.alert-danger .alert-title { color: #AA2244; }
 .alert-item { font-size: 12px; padding: 1px 0; display: flex; gap: 6px; }
-.alert-warn .alert-item { color: #8B5E00; }
+.alert-warn .alert-item { color: #7A4F00; }
 .alert-danger .alert-item { color: #AA2244; }
 .alert-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-.alert-warn .alert-dot { background: #FFB347; }
-.alert-danger .alert-dot { background: var(--pink); }
+.alert-warn .alert-dot { background: var(--warn); }
+.alert-danger .alert-dot { background: var(--primary); }
 
 /* Section title */
 .section-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-.section-title::before { content: ''; width: 4px; height: 16px; background: linear-gradient(180deg, var(--pink) 0%, var(--pink-light) 100%); border-radius: 2px; flex-shrink: 0; }
+.section-title::before { content: ''; width: 4px; height: 16px; background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%); border-radius: 2px; flex-shrink: 0; }
 
 /* Badges */
 .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 600; }
-.badge-ok { background: var(--mint-pale); color: #2D8B72; border: 1px solid var(--mint); }
-.badge-warn { background: var(--peach-pale); color: #8B5E00; border: 1px solid #FFD08A; }
-.badge-danger { background: #FFF0F3; color: #CC3355; border: 1px solid var(--pink-light); }
+.badge-ok { background: var(--accent2-pale); color: #2D8B72; border: 1px solid var(--accent2); }
+.badge-warn { background: var(--warn-pale); color: #8B5E00; border: 1px solid #FFD08A; }
+.badge-danger { background: var(--danger-pale); color: #CC3355; border: 1px solid var(--primary-light); }
+.badge-paused { background: #EEF2FF; color: #4B5EA6; border: 1px solid #B0BAE8; }
+.badge-ended { background: #F0F0F0; color: #888; border: 1px solid #CCC; }
+
+/* Status tags */
+.status-paused { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #EEF2FF; color: #4B5EA6; border: 1px solid #B0BAE8; font-weight: 600; }
+.status-ended { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #F0F0F0; color: #888; border: 1px solid #CCC; font-weight: 600; }
 
 /* Buttons */
-.btn { padding: 9px 16px; font-size: 14px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--white); color: var(--text); font-weight: 500; cursor: pointer; transition: all 0.15s; }
-.btn:active { transform: scale(0.97); opacity: 0.85; }
-.btn-primary { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%); color: white; border-color: var(--pink); box-shadow: 0 2px 8px rgba(255,143,171,0.35); }
-.btn-sm { padding: 5px 11px; font-size: 12px; border-radius: 10px; }
-.btn-warn { background: var(--peach-pale); color: #8B5E00; border-color: #FFD08A; }
-.btn-blue { background: var(--lavender-pale); color: #6B44A0; border-color: var(--lavender); }
-.btn-red { background: #FFF0F3; color: #CC3355; border-color: var(--pink-light); }
-.btn-mint { background: var(--mint-pale); color: #2D8B72; border-color: var(--mint); }
+.btn { padding: 9px 16px; font-size: 14px; border-radius: 12px; border: 1px solid var(--border2); background: var(--white); color: var(--text); font-weight: 500; cursor: pointer; }
+.btn:active { opacity: 0.75; }
+.btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; border-color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 8px; }
+.btn-warn { background: var(--warn-pale); color: #8B5E00; border-color: #FFD08A; }
+.btn-blue { background: var(--accent1-pale); color: #6B44A0; border-color: var(--accent1); }
+.btn-red { background: var(--danger-pale); color: #CC3355; border-color: var(--primary-light); }
+.btn-mint { background: var(--accent2-pale); color: #2D8B72; border-color: var(--accent2); }
 .btn-ghost { background: transparent; color: var(--text2); border-color: var(--border); }
+.btn-grey { background: #F5F5F5; color: #666; border-color: #DDD; }
 
 /* Chips */
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.chip { padding: 6px 14px; font-size: 12px; border-radius: 20px; border: 1px solid var(--border2); cursor: pointer; background: var(--white); color: var(--text2); white-space: nowrap; font-weight: 500; }
+.chip { padding: 6px 13px; font-size: 12px; border-radius: 20px; border: 1px solid var(--border2); cursor: pointer; background: var(--white); color: var(--text2); white-space: nowrap; font-weight: 500; }
 
 /* Avatar */
-.avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; border: 2px solid var(--white); box-shadow: var(--shadow-sm); }
+.avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; border: 2px solid var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
 /* Check items */
 .check-item { display: flex; align-items: flex-start; justify-content: space-between; padding: 11px 0; border-bottom: 1px dashed var(--border); gap: 8px; }
 .check-item:last-child { border-bottom: none; }
-.check-item.low-bg { background: var(--peach-pale); border-radius: var(--radius); padding: 10px 10px; margin: 2px -10px; border-bottom: none; }
-.check-item.excused-bg { background: var(--lavender-pale); border-radius: var(--radius); padding: 10px 10px; margin: 2px -10px; border-bottom: none; }
-.check-item.unexcused-bg { background: #FFF0F3; border-radius: var(--radius); padding: 10px 10px; margin: 2px -10px; border-bottom: none; }
+.check-item.low-bg { background: var(--warn-pale); border-radius: 10px; padding: 10px 10px; margin: 2px -10px; border-bottom: none; }
+.check-item.excused-bg { background: var(--accent1-pale); border-radius: 10px; padding: 10px 10px; margin: 2px -10px; border-bottom: none; }
+.check-item.unexcused-bg { background: var(--danger-pale); border-radius: 10px; padding: 10px 10px; margin: 2px -10px; border-bottom: none; }
 .check-actions { display: flex; gap: 5px; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; max-width: 200px; }
 
 /* Tags */
-.note-tag { font-size: 11px; color: #6B44A0; background: var(--lavender-pale); padding: 2px 8px; border-radius: 10px; margin-top: 3px; display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid var(--lavender); }
+.note-tag { font-size: 11px; color: #6B44A0; background: var(--accent1-pale); padding: 2px 8px; border-radius: 10px; margin-top: 3px; display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid var(--accent1); }
 .time-tag { font-size: 11px; color: var(--text2); background: var(--bg2); padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
 .absent-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; white-space: nowrap; font-weight: 500; }
-.absent-excused { background: var(--lavender-pale); color: #6B44A0; border: 1px solid var(--lavender); }
-.absent-unexcused { background: #FFF0F3; color: #CC3355; border: 1px solid var(--pink-light); }
-.warn-inline { font-size: 10px; color: #8B5E00; background: var(--peach-pale); padding: 2px 6px; border-radius: 8px; border: 1px solid #FFD08A; }
-.expire-inline { font-size: 10px; color: #CC3355; background: #FFF0F3; padding: 2px 6px; border-radius: 8px; }
-.join-dur { font-size: 11px; color: #2D8B72; background: var(--mint-pale); padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 2px; border: 1px solid var(--mint); }
+.absent-excused { background: var(--accent1-pale); color: #6B44A0; border: 1px solid var(--accent1); }
+.absent-unexcused { background: var(--danger-pale); color: #CC3355; border: 1px solid var(--primary-light); }
+.warn-inline { font-size: 10px; color: #8B5E00; background: var(--warn-pale); padding: 2px 6px; border-radius: 8px; border: 1px solid #FFD08A; }
+.expire-inline { font-size: 10px; color: #CC3355; background: var(--danger-pale); padding: 2px 6px; border-radius: 8px; }
+.join-dur { font-size: 11px; color: #2D8B72; background: var(--accent2-pale); padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 2px; border: 1px solid var(--accent2); }
 
 /* Student row */
 .student-row { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px dashed var(--border); }
 .student-row:last-child { border-bottom: none; }
+.student-row.paused-row { opacity: 0.75; background: #F8F8FF; border-radius: 8px; padding: 10px 8px; margin: 2px -8px; border-bottom: none; }
+.student-row.ended-row { opacity: 0.55; background: #F8F8F8; border-radius: 8px; padding: 10px 8px; margin: 2px -8px; border-bottom: none; }
 
 /* History */
 .hist-item { padding: 9px 0; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
@@ -145,83 +144,86 @@ input, textarea, select, button { font-family: inherit; }
 
 /* Empty state */
 .empty { text-align: center; padding: 2.5rem 1rem; color: var(--text2); font-size: 14px; }
-.empty-icon { font-size: 36px; margin-bottom: 8px; }
 
 /* Forms */
 .form-group { margin-bottom: 12px; }
 .form-group label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 600; }
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%; font-size: 14px; padding: 10px 13px; border-radius: var(--radius);
-  border: 1.5px solid var(--border2); background: var(--bg); color: var(--text);
-  outline: none; transition: border-color 0.2s;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--pink); background: var(--white); }
-.form-group textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; font-size: 14px; padding: 10px 13px; border-radius: 12px; border: 1.5px solid var(--border2); background: var(--bg); color: var(--text); outline: none; transition: border-color 0.2s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--white); }
+.form-group textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .expire-hint { font-size: 11px; color: #2D8B72; margin-top: 4px; font-weight: 500; }
 
 /* Overlay + modal */
-.overlay { display: none; position: fixed; inset: 0; background: rgba(92,61,78,0.4); z-index: 200; overflow-y: auto; padding: 1rem; backdrop-filter: blur(4px); }
+.overlay { display: none; position: fixed; inset: 0; background: rgba(60,40,50,0.45); z-index: 200; overflow-y: auto; padding: 1rem; backdrop-filter: blur(3px); }
 .overlay.open { display: block; }
-.modal { background: var(--white); border-radius: var(--radius-xl); padding: 20px; width: 100%; max-width: 500px; margin: auto; margin-top: env(safe-area-inset-top, 16px); box-shadow: 0 8px 32px rgba(255,143,171,0.25); border: 1px solid var(--border); }
-.modal-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+.modal { background: var(--white); border-radius: 20px; padding: 20px; width: 100%; max-width: 500px; margin: auto; margin-top: env(safe-area-inset-top, 12px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid var(--border); }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
 .modal-footer { display: flex; gap: 8px; margin-top: 16px; }
 .modal-footer .btn { flex: 1; text-align: center; }
 
 /* Confirm card */
-.confirm-card { background: var(--white); border-radius: 20px; padding: 28px 22px; max-width: 360px; margin: auto; margin-top: env(safe-area-inset-top, 16px); text-align: center; box-shadow: 0 8px 32px rgba(255,143,171,0.25); border: 1px solid var(--border); }
+.confirm-card { background: var(--white); border-radius: 20px; padding: 28px 22px; max-width: 360px; margin: auto; margin-top: env(safe-area-inset-top, 16px); text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
 
 /* Toast */
 #toast { position: fixed; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); padding: 11px 22px; border-radius: 20px; font-size: 14px; z-index: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 88vw; text-align: center; font-weight: 500; }
 #toast.show { opacity: 1; }
-.tn { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%); color: white; box-shadow: 0 4px 16px rgba(255,143,171,0.4); }
-.tw { background: linear-gradient(135deg, var(--peach) 0%, #FFD08A 100%); color: white; }
-.td { background: linear-gradient(135deg, #FF6B8A 0%, var(--pink) 100%); color: white; }
+.tn { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; }
+.tw { background: var(--warn); color: white; }
+.td { background: var(--danger); color: white; }
 
 /* FAB */
-.fab { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom,0px)); right: 20px; width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%); color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(255,143,171,0.5); z-index: 40; border: none; cursor: pointer; }
-
-/* Decorative */
-.deco-title { font-size: 20px; font-weight: 800; color: var(--pink); text-align: center; padding: 8px 0 4px; letter-spacing: 2px; }
+.fab { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom,0px)); right: 20px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 40; border: none; cursor: pointer; }
 
 /* Class management */
-.class-card { background: var(--white); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.class-card { background: var(--white); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
 .class-card-header { display: flex; align-items: center; justify-content: space-between; }
 .weekday-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 10px 0; }
 .weekday-btn { padding: 6px 2px; font-size: 12px; border-radius: 8px; border: 1.5px solid var(--border2); background: var(--white); color: var(--text2); cursor: pointer; text-align: center; font-weight: 600; }
-.weekday-btn.active { background: var(--pink); color: white; border-color: var(--pink); }
-.schedule-list { max-height: 180px; overflow-y: auto; }
-.schedule-date-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; border-radius: 8px; margin-bottom: 4px; font-size: 13px; }
-.schedule-date-item.normal { background: var(--pink-pale); color: var(--text); }
-.schedule-date-item.cancelled { background: var(--bg3); color: var(--text2); text-decoration: line-through; }
-.schedule-date-item .course-tag { font-size: 10px; background: var(--lavender-pale); color: #6B44A0; padding: 1px 6px; border-radius: 8px; border: 1px solid var(--lavender); }
+.weekday-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.schedule-list { max-height: 200px; overflow-y: auto; }
+.schedule-date-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 8px; border-radius: 8px; margin-bottom: 4px; font-size: 13px; }
+.schedule-date-item.normal { background: var(--primary-pale); }
+.schedule-date-item.cancelled { background: #F0F0F0; color: var(--text2); text-decoration: line-through; }
+.course-tag { font-size: 10px; background: var(--accent1-pale); color: #6B44A0; padding: 1px 6px; border-radius: 8px; border: 1px solid var(--accent1); cursor: pointer; }
 
 /* Workout card */
-.workout-card { background: var(--white); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-.workout-num { display: inline-block; font-size: 11px; font-weight: 700; background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%); color: white; padding: 2px 10px; border-radius: 20px; margin-bottom: 8px; }
-.workout-section { margin-bottom: 10px; }
-.workout-section-title { font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+.workout-card { background: var(--white); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+.workout-num { display: inline-block; font-size: 11px; font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 2px 10px; border-radius: 20px; margin-bottom: 8px; }
 .workout-content { font-size: 13px; color: var(--text); background: var(--bg); border-radius: 8px; padding: 8px 10px; min-height: 36px; white-space: pre-wrap; line-height: 1.6; }
 .workout-content.empty-content { color: var(--text3); font-style: italic; }
 
-/* Date picker */
-.date-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+/* Pause record */
+.pause-record { background: #EEF2FF; border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; font-size: 12px; color: #4B5EA6; display: flex; justify-content: space-between; align-items: center; }
 
-/* Retroactive history */
-.retro-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: var(--pink-pale); border-radius: 8px; margin-bottom: 4px; font-size: 13px; }
+/* Retro item */
+.retro-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: var(--primary-pale); border-radius: 8px; margin-bottom: 4px; font-size: 13px; }
 
 /* Divider */
 .divider { border: none; border-top: 1px dashed var(--border2); margin: 12px 0; }
 
 /* Season warning */
-.season-warn { background: linear-gradient(135deg, #FFF0F3 0%, var(--peach-pale) 100%); border: 1px solid var(--pink-light); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #AA2244; font-weight: 500; }
+.season-warn { background: var(--warn-pale); border: 1px solid #FFD08A; border-radius: 10px; padding: 9px 14px; margin-bottom: 10px; font-size: 13px; color: #8B5E00; font-weight: 500; }
+
+/* Theme picker */
+.theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+.theme-swatch { border-radius: 12px; padding: 10px 6px; text-align: center; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+.theme-swatch.selected { border-color: var(--text); }
+.theme-swatch-dot { width: 36px; height: 36px; border-radius: 50%; margin: 0 auto 5px; }
+.theme-swatch-name { font-size: 10px; color: var(--text2); font-weight: 600; }
+
+/* Class member list */
+.class-member-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px dashed var(--border); }
+.class-member-item:last-child { border-bottom: none; }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-title">🌸 健身課程管理 🌸</div>
-    <div class="header-subtitle">讓每一堂課都留下美好紀錄</div>
+    <div class="header-top">
+      <div class="header-title">健身課程管理</div>
+      <button class="theme-btn" onclick="openModal('modal-theme')">主題色彩</button>
+    </div>
     <div class="tab-bar">
       <button class="tab active" onclick="switchTab('checkin')">簽到</button>
       <button class="tab" onclick="switchTab('students')">學員</button>
@@ -231,18 +233,17 @@ input, textarea, select, button { font-family: inherit; }
     </div>
   </div>
 
-  <!-- 簽到 -->
   <div class="content" id="tab-checkin">
     <div id="season-warn"></div>
     <div id="alert-sessions"></div>
     <div id="alert-expire"></div>
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">👩‍🦰 總學員</div><div class="stat-num" id="st-total">0</div></div>
-      <div class="stat-card"><div class="stat-label">⚠️ 堂數不足</div><div class="stat-num warn" id="st-low">0</div></div>
-      <div class="stat-card"><div class="stat-label">📅 即將到期</div><div class="stat-num danger" id="st-exp">0</div></div>
+      <div class="stat-card"><div class="stat-label">總學員</div><div class="stat-num" id="st-total">0</div></div>
+      <div class="stat-card"><div class="stat-label">堂數不足</div><div class="stat-num warn" id="st-low">0</div></div>
+      <div class="stat-card"><div class="stat-label">即將到期</div><div class="stat-num danger" id="st-exp">0</div></div>
     </div>
     <div class="card">
-      <div class="date-row">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
         <div class="section-title" style="margin:0">課堂簽到</div>
         <div style="display:flex;align-items:center;gap:8px">
           <span style="font-size:12px;color:var(--text2)">日期</span>
@@ -254,32 +255,28 @@ input, textarea, select, button { font-family: inherit; }
     </div>
   </div>
 
-  <!-- 學員 -->
   <div class="content" id="tab-students" style="display:none">
     <div class="chips" id="student-filter"></div>
     <div id="student-list"></div>
-    <button class="fab" onclick="openAddModal()">＋</button>
+    <button class="fab" onclick="openAddModal()">+</button>
   </div>
 
-  <!-- 班別管理 -->
   <div class="content" id="tab-classes" style="display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
       <div class="section-title" style="margin:0">班別管理</div>
-      <button class="btn btn-primary btn-sm" onclick="openClassModal()">＋ 新增班別</button>
+      <button class="btn btn-primary btn-sm" onclick="openClassModal()">+ 新增班別</button>
     </div>
     <div id="class-list"></div>
   </div>
 
-  <!-- 課表管理 -->
   <div class="content" id="tab-workouts" style="display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
       <div class="section-title" style="margin:0">課表管理</div>
-      <button class="btn btn-primary btn-sm" onclick="openWorkoutModal()">＋ 新增課表</button>
+      <button class="btn btn-primary btn-sm" onclick="openWorkoutModal()">+ 新增課表</button>
     </div>
     <div id="workout-list"></div>
   </div>
 
-  <!-- 紀錄 -->
   <div class="content" id="tab-history" style="display:none">
     <div class="card">
       <div class="section-title">上課紀錄</div>
@@ -291,7 +288,7 @@ input, textarea, select, button { font-family: inherit; }
 <!-- 新增學員 -->
 <div class="overlay" id="modal-add">
   <div class="modal">
-    <div class="modal-title">🌸 新增學員</div>
+    <div class="modal-title">新增學員</div>
     <div class="form-row">
       <div class="form-group"><label>姓名</label><input id="f-name" type="text" placeholder="王小明"></div>
       <div class="form-group"><label>電話</label><input id="f-phone" type="tel" placeholder="0912-345-678"></div>
@@ -314,12 +311,12 @@ input, textarea, select, button { font-family: inherit; }
     <div class="form-group"><label>特殊狀況備註</label><textarea id="f-note" placeholder="例如：左膝舊傷..."></textarea></div>
     <hr class="divider">
     <div class="form-group">
-      <label>📋 回溯已上課記錄（選填）</label>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">輸入學員過去已上課的日期，系統將自動扣除已使用堂數</div>
+      <label>回溯已上課日期（選填）</label>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">輸入過去已上課日期，系統自動扣除已使用堂數</div>
       <div id="retro-list" style="margin-bottom:8px"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input type="date" id="retro-date" style="flex:1;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)">
-        <select id="retro-cls" style="flex:1;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)"></select>
+        <input type="date" id="retro-date" style="flex:1;min-width:100px;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)">
+        <select id="retro-cls" style="flex:1;min-width:100px;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)"></select>
         <button class="btn btn-mint btn-sm" onclick="addRetroDate()">加入</button>
       </div>
     </div>
@@ -333,7 +330,7 @@ input, textarea, select, button { font-family: inherit; }
 <!-- 補購 -->
 <div class="overlay" id="modal-purchase">
   <div class="modal">
-    <div class="modal-title" id="pur-title">💝 補購堂數</div>
+    <div class="modal-title" id="pur-title">補購堂數</div>
     <div class="form-row">
       <div class="form-group"><label>追加堂數</label><input id="p-add" type="number" min="1" value="12" onchange="autoPurExp()"></div>
       <div class="form-group"><label>補購日期</label><input id="p-buy" type="date" onchange="autoPurExp()"></div>
@@ -353,7 +350,7 @@ input, textarea, select, button { font-family: inherit; }
 <!-- 編輯學員 -->
 <div class="overlay" id="modal-edit">
   <div class="modal">
-    <div class="modal-title">✏️ 編輯學員</div>
+    <div class="modal-title">編輯學員</div>
     <div class="form-row">
       <div class="form-group"><label>姓名</label><input id="e-name" type="text"></div>
       <div class="form-group"><label>電話</label><input id="e-phone" type="tel"></div>
@@ -372,21 +369,89 @@ input, textarea, select, button { font-family: inherit; }
   </div>
 </div>
 
+<!-- 學員詳情（含暫停/結束/請假回溯） -->
+<div class="overlay" id="modal-student-detail">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="modal-title" style="margin:0" id="sd-name"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-student-detail')">關閉</button>
+    </div>
+    <div id="sd-status-bar" style="margin-bottom:12px"></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="sd-actions"></div>
+    <hr class="divider">
+    <!-- 課程暫停紀錄 -->
+    <div id="sd-pause-section" style="display:none">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">課程暫停紀錄</div>
+      <div id="sd-pause-list"></div>
+      <hr class="divider">
+    </div>
+    <!-- 回溯請假 -->
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">回溯請假登記</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">登記過去已請假但未記錄的日期（不扣堂數）</div>
+      <div id="sd-retro-leave-list" style="margin-bottom:8px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="date" id="sd-leave-date" style="flex:1;min-width:100px;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)">
+        <select id="sd-leave-cls" style="flex:1;min-width:100px;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)"></select>
+        <button class="btn btn-mint btn-sm" onclick="addRetroLeave()">加入</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 課程暫停 modal -->
+<div class="overlay" id="modal-pause">
+  <div class="modal">
+    <div class="modal-title" id="pause-title">設定課程暫停</div>
+    <div class="form-group">
+      <label>暫停開始日期</label>
+      <input id="pause-start" type="date">
+    </div>
+    <div class="form-group">
+      <label>預計恢復日期（可暫不填）</label>
+      <input id="pause-end" type="date">
+    </div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px">恢復後系統將自動計算暫停天數，並將到期日往後順延</div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-pause')">取消</button>
+      <button class="btn btn-primary" onclick="confirmPause()">確認暫停</button>
+    </div>
+  </div>
+</div>
+
+<!-- 恢復課程 modal -->
+<div class="overlay" id="modal-resume">
+  <div class="modal">
+    <div class="modal-title" id="resume-title">恢復課程</div>
+    <div class="form-group">
+      <label>恢復上課日期</label>
+      <input id="resume-date" type="date">
+    </div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:4px" id="resume-hint"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-resume')">取消</button>
+      <button class="btn btn-primary" onclick="confirmResume()">確認恢復</button>
+    </div>
+  </div>
+</div>
+
 <!-- 簽到確認 -->
 <div class="overlay" id="modal-confirm">
   <div class="confirm-card" id="confirm-snap">
-    <div style="font-size:48px;margin-bottom:10px">🎉</div>
-    <div style="font-size:22px;font-weight:800;color:var(--pink);margin-bottom:4px" id="cf-name"></div>
+    <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center">
+      <span style="color:white;font-size:26px;font-weight:700">V</span>
+    </div>
+    <div style="font-size:22px;font-weight:800;color:var(--primary);margin-bottom:4px" id="cf-name"></div>
     <div style="font-size:13px;color:var(--text2);margin-bottom:14px" id="cf-class"></div>
     <div style="border-top:2px dashed var(--border2);padding-top:14px;margin-bottom:14px">
       <div style="font-size:12px;color:var(--text2);margin-bottom:4px" id="cf-date"></div>
       <div style="font-size:30px;font-weight:800;color:var(--text);margin:6px 0" id="cf-remain"></div>
       <div style="font-size:12px;color:var(--text2)" id="cf-expire-txt"></div>
     </div>
-    <div id="cf-warn" style="background:var(--peach-pale);color:#8B5E00;border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:14px;text-align:left;display:none;border:1px solid #FFD08A"></div>
-    <div style="font-size:10px;color:var(--text3);margin-bottom:16px">🌸 健身課程管理系統</div>
+    <div id="cf-warn" style="background:var(--warn-pale);color:#8B5E00;border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:14px;text-align:left;display:none;border:1px solid #FFD08A"></div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:16px">健身課程管理系統</div>
     <div style="display:flex;gap:8px">
-      <button class="btn btn-mint btn-sm" id="btn-shot" onclick="doShot()" style="flex:1;padding:10px">📸 截取畫面</button>
+      <button class="btn btn-mint btn-sm" id="btn-shot" onclick="doShot()" style="flex:1;padding:10px">截取畫面</button>
       <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-confirm')" style="flex:1;padding:10px">關閉</button>
     </div>
     <div id="shot-hint" style="font-size:11px;color:var(--text2);margin-top:8px;display:none;text-align:center"></div>
@@ -401,10 +466,10 @@ input, textarea, select, button { font-family: inherit; }
         <div style="font-size:17px;font-weight:700;color:var(--text)" id="sr-name"></div>
         <div style="font-size:12px;color:var(--text2);margin-top:2px" id="sr-meta"></div>
       </div>
-      <button class="btn btn-sm btn-mint" onclick="doRecordShot()">📸 截取</button>
+      <button class="btn btn-sm btn-mint" onclick="doRecordShot()">截取</button>
     </div>
     <div class="stats-grid" style="margin-bottom:12px">
-      <div class="stat-card"><div class="stat-label">購買堂數</div><div style="font-size:18px;font-weight:700;color:var(--pink)" id="sr-total"></div></div>
+      <div class="stat-card"><div class="stat-label">購買堂數</div><div style="font-size:18px;font-weight:700;color:var(--primary)" id="sr-total"></div></div>
       <div class="stat-card"><div class="stat-label">已使用</div><div style="font-size:18px;font-weight:700;color:var(--text)" id="sr-used"></div></div>
       <div class="stat-card"><div class="stat-label">剩餘堂數</div><div style="font-size:18px;font-weight:700" id="sr-remain"></div></div>
     </div>
@@ -419,10 +484,26 @@ input, textarea, select, button { font-family: inherit; }
   </div>
 </div>
 
+<!-- 班別學員列表 -->
+<div class="overlay" id="modal-class-members">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="modal-title" style="margin:0" id="cm-title"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-class-members')">關閉</button>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <button class="btn btn-sm" id="cm-tab-active" onclick="setCMTab('active')" style="flex:1">上課中</button>
+      <button class="btn btn-sm" id="cm-tab-paused" onclick="setCMTab('paused')" style="flex:1">暫停中</button>
+      <button class="btn btn-sm" id="cm-tab-ended" onclick="setCMTab('ended')" style="flex:1">已結束</button>
+    </div>
+    <div id="cm-list"></div>
+  </div>
+</div>
+
 <!-- 新增/編輯班別 -->
 <div class="overlay" id="modal-class">
   <div class="modal">
-    <div class="modal-title" id="cls-modal-title">🎀 新增班別</div>
+    <div class="modal-title" id="cls-modal-title">新增班別</div>
     <div class="form-group"><label>班別名稱</label><input id="cls-name" type="text" placeholder="例如：週三瑜珈班"></div>
     <div class="form-group">
       <label>顏色主題</label>
@@ -432,10 +513,7 @@ input, textarea, select, button { font-family: inherit; }
       <label>每週上課日（可多選）</label>
       <div class="weekday-grid" id="cls-weekdays"></div>
     </div>
-    <div class="form-group">
-      <label>排程起始日</label>
-      <input id="cls-start" type="date">
-    </div>
+    <div class="form-group"><label>排程起始日</label><input id="cls-start" type="date"></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-class')">取消</button>
       <button class="btn btn-primary" onclick="saveClass()">儲存</button>
@@ -443,12 +521,12 @@ input, textarea, select, button { font-family: inherit; }
   </div>
 </div>
 
-<!-- 班別排程詳情 -->
+<!-- 班別排程 -->
 <div class="overlay" id="modal-schedule">
   <div class="modal">
-    <div class="modal-title" id="sch-title">📅 課程排程</div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:12px" id="sch-range"></div>
-    <div id="season-end-warn"></div>
+    <div class="modal-title" id="sch-title">課程排程</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:10px" id="sch-range"></div>
+    <div id="sch-season-warn"></div>
     <div class="schedule-list" id="sch-list"></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-schedule')">關閉</button>
@@ -459,12 +537,9 @@ input, textarea, select, button { font-family: inherit; }
 <!-- 指定課表 -->
 <div class="overlay" id="modal-assign-workout">
   <div class="modal">
-    <div class="modal-title">📋 指定課表</div>
+    <div class="modal-title">指定課表</div>
     <div style="font-size:14px;color:var(--text);margin-bottom:12px" id="assign-date-label"></div>
-    <div class="form-group">
-      <label>選擇課表</label>
-      <select id="assign-workout-sel"></select>
-    </div>
+    <div class="form-group"><label>選擇課表</label><select id="assign-workout-sel"></select></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-assign-workout')">取消</button>
       <button class="btn btn-primary" onclick="confirmAssignWorkout()">確認</button>
@@ -475,10 +550,10 @@ input, textarea, select, button { font-family: inherit; }
 <!-- 新增/編輯課表 -->
 <div class="overlay" id="modal-workout">
   <div class="modal">
-    <div class="modal-title" id="wo-modal-title">💪 新增課表</div>
-    <div class="form-group"><label>暖身 🔥</label><textarea id="wo-warmup" placeholder="輸入暖身內容..."></textarea></div>
-    <div class="form-group"><label>主課表 💪</label><textarea id="wo-main" placeholder="輸入主課表內容..."></textarea></div>
-    <div class="form-group"><label>腹肌訓練 🔥</label><textarea id="wo-core" placeholder="輸入腹肌訓練內容..."></textarea></div>
+    <div class="modal-title" id="wo-modal-title">新增課表</div>
+    <div class="form-group"><label>暖身</label><textarea id="wo-warmup" placeholder="輸入暖身內容..."></textarea></div>
+    <div class="form-group"><label>主課表</label><textarea id="wo-main" placeholder="輸入主課表內容..."></textarea></div>
+    <div class="form-group"><label>腹肌訓練</label><textarea id="wo-core" placeholder="輸入腹肌訓練內容..."></textarea></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-workout')">取消</button>
       <button class="btn btn-primary" onclick="saveWorkout()">儲存</button>
@@ -496,17 +571,29 @@ input, textarea, select, button { font-family: inherit; }
         <button class="btn btn-sm btn-ghost" onclick="closeModal('modal-workout-detail')">關閉</button>
       </div>
     </div>
-    <div class="workout-section">
-      <div class="workout-section-title">🔥 暖身</div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:4px">暖身</div>
       <div class="workout-content" id="wd-warmup"></div>
     </div>
-    <div class="workout-section">
-      <div class="workout-section-title">💪 主課表</div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:4px">主課表</div>
       <div class="workout-content" id="wd-main"></div>
     </div>
-    <div class="workout-section">
-      <div class="workout-section-title">🔥 腹肌訓練</div>
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:4px">腹肌訓練</div>
       <div class="workout-content" id="wd-core"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 主題色彩 -->
+<div class="overlay" id="modal-theme">
+  <div class="modal">
+    <div class="modal-title">主題色彩</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px">選擇你喜歡的顏色風格</div>
+    <div class="theme-grid" id="theme-grid"></div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeModal('modal-theme')">完成</button>
     </div>
   </div>
 </div>
@@ -515,19 +602,26 @@ input, textarea, select, button { font-family: inherit; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const KEY = 'fitness_v7';
+const KEY = 'fitness_v8';
 const COLOR_OPTIONS = [
-  {color:'#FF8FAB',bg:'#FFF0F3',name:'玫瑰粉'},
-  {color:'#FF7BAC',bg:'#FFE8F0',name:'桃花粉'},
-  {color:'#C8A2C8',bg:'#F3EEFF',name:'薰衣草'},
-  {color:'#98D8C8',bg:'#E8FAF5',name:'薄荷綠'},
-  {color:'#FFB347',bg:'#FFF4E6',name:'蜜桃橘'},
-  {color:'#87CEEB',bg:'#EBF7FF',name:'天空藍'},
-  {color:'#DDA0DD',bg:'#F8EEFF',name:'紫羅蘭'},
-  {color:'#F4A460',bg:'#FDF3E8',name:'焦糖棕'},
+  {color:'#FF8FAB',bg:'#FFF0F3'},{color:'#FF7BAC',bg:'#FFE8F0'},
+  {color:'#C8A2C8',bg:'#F3EEFF'},{color:'#98D8C8',bg:'#E8FAF5'},
+  {color:'#FFB347',bg:'#FFF4E6'},{color:'#87CEEB',bg:'#EBF7FF'},
+  {color:'#DDA0DD',bg:'#F8EEFF'},{color:'#F4A460',bg:'#FDF3E8'},
 ];
 const WEEKDAYS = ['日','一','二','三','四','五','六'];
-const ERULES=[{s:4,d:42},{s:12,d:120},{s:20,d:180}];
+const ERULES = [{s:4,d:42},{s:12,d:120},{s:20,d:180}];
+
+const THEMES = [
+  {name:'玫瑰粉',primary:'#FF8FAB',primaryLight:'#FFB3C6',primaryPale:'#FFF0F3',bg:'#FFF5F7',bg2:'#FFE8EE',text:'#5C3D4E',text2:'#9C7A87'},
+  {name:'蜜桃橘',primary:'#FF9066',primaryLight:'#FFB399',primaryPale:'#FFF3EE',bg:'#FFF8F5',bg2:'#FFE8DE',text:'#5C3D30',text2:'#9C7060'},
+  {name:'薰衣草',primary:'#9B7EC8',primaryLight:'#C3A8E8',primaryPale:'#F5F0FF',bg:'#F8F5FF',bg2:'#EDE5FF',text:'#3D2E5C',text2:'#7A6A9C'},
+  {name:'薄荷綠',primary:'#5EC4A8',primaryLight:'#8DD8C4',primaryPale:'#EDFAF6',bg:'#F2FAF8',bg2:'#D8F3EC',text:'#1E4A3E',text2:'#4A8A7A'},
+  {name:'莫蘭迪玫',primary:'#C08080',primaryLight:'#D4A0A0',primaryPale:'#FAF0F0',bg:'#FAF5F5',bg2:'#F0E4E4',text:'#4A2E2E',text2:'#8A6060'},
+  {name:'莫蘭迪藍',primary:'#7090A8',primaryLight:'#98B4C4',primaryPale:'#EEF4F8',bg:'#F2F6FA',bg2:'#DDE8F0',text:'#2A3D4A',text2:'#5A7080'},
+  {name:'莫蘭迪綠',primary:'#7A9E7E',primaryLight:'#A0BCA4',primaryPale:'#EEF5EF',bg:'#F3F8F4',bg2:'#DEEADE',text:'#2A3E2C',text2:'#5A7A5C'},
+  {name:'莫蘭迪紫',primary:'#8878A8',primaryLight:'#A89CC8',primaryPale:'#F2EEF8',bg:'#F5F2FA',bg2:'#E4DEEF',text:'#352A4A',text2:'#6A5A88'},
+];
 
 function expDays(n){n=parseInt(n)||0;for(let i=ERULES.length-1;i>=0;i--)if(n>=ERULES[i].s)return ERULES[i].d;return 42;}
 function expLbl(n){n=parseInt(n)||0;return n<=4?'6週':n<=12?'4個月':'6個月';}
@@ -544,41 +638,27 @@ function durStr(s){
 }
 function fmtDate(s){if(!s)return'';const d=new Date(s);return`${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;}
 
-// Generate season dates (3 months from start)
-function genSeasonDates(startDate, weekdays) {
-  const dates = [];
-  const start = new Date(startDate);
-  const end = new Date(startDate);
-  end.setMonth(end.getMonth() + 3);
-  let cur = new Date(start);
-  while (cur <= end) {
-    if (weekdays.includes(cur.getDay())) {
-      dates.push(cur.toISOString().slice(0,10));
-    }
-    cur.setDate(cur.getDate()+1);
-  }
+function genSeasonDates(startDate,weekdays){
+  const dates=[];const start=new Date(startDate);const end=new Date(startDate);
+  end.setMonth(end.getMonth()+3);let cur=new Date(start);
+  while(cur<=end){if(weekdays.includes(cur.getDay()))dates.push(cur.toISOString().slice(0,10));cur.setDate(cur.getDate()+1);}
   return dates;
 }
-
-// Workout number generator A001-A999, B001...
-function genWorkoutNum(workouts) {
-  if (!workouts.length) return 'A001';
-  const last = workouts[workouts.length-1].num;
-  const letter = last[0];
-  const num = parseInt(last.slice(1));
-  if (num >= 999) {
-    const nextLetter = String.fromCharCode(letter.charCodeAt(0)+1);
-    return nextLetter + '001';
-  }
-  return letter + String(num+1).padStart(3,'0');
+function genWorkoutNum(workouts){
+  if(!workouts.length)return'A001';const last=workouts[workouts.length-1].num;
+  const letter=last[0];const num=parseInt(last.slice(1));
+  if(num>=999)return String.fromCharCode(letter.charCodeAt(0)+1)+'001';
+  return letter+String(num+1).padStart(3,'0');
 }
 
-let state = { students:[], history:[], classes:[], workouts:[] };
-let purId=null, editId=null, addCls=[], editCls=[];
-let selCI='', selSF='all';
-let editClassId=null, editWorkoutId=null, viewWorkoutId=null;
-let assignDate=null, assignClassId=null;
-let retroDates=[];
+let state={students:[],history:[],classes:[],workouts:[],themeIdx:0};
+let purId=null,editId=null,addCls=[],editCls=[];
+let selCI='',selSF='all';
+let editClassId=null,editWorkoutId=null,viewWorkoutId=null;
+let assignDate=null,assignClassId=null;
+let retroDates=[],currentDetailId=null,cmClassId=null,cmTab='active';
+let pauseTargetId=null,resumeTargetId=null,resumePauseIdx=null;
+let pendingRetroLeaves=[];
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
 function load(){
@@ -587,11 +667,41 @@ function load(){
   if(!state.history)state.history=[];
   if(!state.classes)state.classes=[];
   if(!state.workouts)state.workouts=[];
-  // default class selection
-  if(state.classes.length) selCI=state.classes[0].id;
+  if(!state.themeIdx)state.themeIdx=0;
+  if(state.classes.length)selCI=state.classes[0].id;
   document.getElementById('checkin-date').value=new Date().toISOString().slice(0,10);
+  applyTheme(state.themeIdx);
   renderAll();
 }
+
+// Theme
+function applyTheme(idx){
+  const t=THEMES[idx]||THEMES[0];
+  const r=document.documentElement.style;
+  r.setProperty('--primary',t.primary);
+  r.setProperty('--primary-light',t.primaryLight);
+  r.setProperty('--primary-pale',t.primaryPale);
+  r.setProperty('--bg',t.bg);
+  r.setProperty('--bg2',t.bg2);
+  r.setProperty('--text',t.text);
+  r.setProperty('--text2',t.text2);
+  r.setProperty('--border',`rgba(0,0,0,0.10)`);
+  r.setProperty('--border2',`rgba(0,0,0,0.18)`);
+}
+function renderThemeGrid(){
+  document.getElementById('theme-grid').innerHTML=THEMES.map((t,i)=>`
+    <div class="theme-swatch ${state.themeIdx===i?'selected':''}" onclick="selectTheme(${i})">
+      <div class="theme-swatch-dot" style="background:${t.primary}"></div>
+      <div class="theme-swatch-name">${t.name}</div>
+    </div>`).join('');
+}
+function selectTheme(i){state.themeIdx=i;applyTheme(i);save();renderThemeGrid();}
+
+// Student status helpers
+function getStatus(s){return s.status||'active';}
+function isActive(s){return getStatus(s)==='active';}
+function isPaused(s){return getStatus(s)==='paused';}
+function isEnded(s){return getStatus(s)==='ended';}
 
 function ini(n){if(!n)return'?';const t=n.trim();if(/[\u4e00-\u9fff]/.test(t))return t.slice(-2);return t.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
 function getCls(id){return state.classes.find(c=>c.id===id);}
@@ -623,50 +733,45 @@ function showDur(inId,outId){
 function autoExp(){
   const s=document.getElementById('f-total').value,b=document.getElementById('f-buy').value;
   const h=document.getElementById('f-exp-hint'),i=document.getElementById('f-exp');
-  if(b){const sg=addD(b,expDays(s));i.value=sg;h.textContent='💡 建議'+expLbl(s)+'內（'+sg+'）';}
+  if(b){const sg=addD(b,expDays(s));i.value=sg;h.textContent='建議'+expLbl(s)+'內（'+sg+'）';}
 }
 function autoPurExp(){
   const s=document.getElementById('p-add').value,b=document.getElementById('p-buy').value;
   const h=document.getElementById('p-exp-hint'),i=document.getElementById('p-exp');
-  if(b){const sg=addD(b,expDays(s));i.value=sg;h.textContent='💡 建議'+expLbl(s)+'內（'+sg+'）';}
+  if(b){const sg=addD(b,expDays(s));i.value=sg;h.textContent='建議'+expLbl(s)+'內（'+sg+'）';}
 }
 
-// Season warning check
 function checkSeasonWarn(){
   const el=document.getElementById('season-warn');
-  let warns=[];
+  const warns=[];
   state.classes.forEach(cls=>{
     if(!cls.dates||!cls.dates.length)return;
-    const futureDates=cls.dates.filter(d=>!cls.cancelled||!cls.cancelled.includes(d)).filter(d=>diffD(d)>=0);
-    if(futureDates.length<=3){
-      warns.push(`「${cls.name}」排程剩餘不足，請盡快更新！`);
-    }
+    const future=cls.dates.filter(d=>diffD(d)>=0&&(!cls.cancelled||!cls.cancelled.includes(d)));
+    if(future.length<=3)warns.push(`「${cls.name}」排程剩餘不足，請盡快更新`);
   });
-  el.innerHTML=warns.map(w=>`<div class="season-warn">📅 ${w}</div>`).join('');
+  el.innerHTML=warns.map(w=>`<div class="season-warn">${w}</div>`).join('');
 }
 
 function renderAlerts(){
-  const low=state.students.filter(s=>isLow(s)||isEmpty(s));
-  const exp=state.students.filter(s=>isExpSoon(s)||isExpired(s));
+  const activeStudents=state.students.filter(s=>isActive(s));
+  const low=activeStudents.filter(s=>isLow(s)||isEmpty(s));
+  const exp=activeStudents.filter(s=>isExpSoon(s)||isExpired(s));
   const clsStr=s=>(s.classIds||[]).map(id=>{const c=getCls(id);return c?c.name:'';}).filter(Boolean).join('、')||'未分班';
   document.getElementById('alert-sessions').innerHTML=low.length?
-    `<div class="alert alert-warn"><div class="alert-title">⚠️ 堂數不足（${low.length}位）</div>${low.map(s=>`<div class="alert-item"><span class="alert-dot"></span><b>${s.name}</b>（${clsStr(s)}）— ${isEmpty(s)?'已用完':s.remainingSessions===1?'本次上完需補購':'剩'+s.remainingSessions+'堂'}</div>`).join('')}</div>`:'';
+    `<div class="alert alert-warn"><div class="alert-title">堂數不足（${low.length}位）</div>${low.map(s=>`<div class="alert-item"><span class="alert-dot"></span><b>${s.name}</b>（${clsStr(s)}）— ${isEmpty(s)?'已用完':s.remainingSessions===1?'本次上完需補購':'剩'+s.remainingSessions+'堂'}</div>`).join('')}</div>`:'';
   document.getElementById('alert-expire').innerHTML=exp.length?
-    `<div class="alert alert-danger"><div class="alert-title">📅 課程到期提醒（${exp.length}位）</div>${exp.map(s=>{const d=diffD(s.expireDate);return`<div class="alert-item"><span class="alert-dot"></span><b>${s.name}</b>（${clsStr(s)}）— ${d<0?'已過期'+Math.abs(d)+'天':d===0?'今天到期':d+'天後到期'}（${s.expireDate}）</div>`;}).join('')}</div>`:'';
+    `<div class="alert alert-danger"><div class="alert-title">課程到期提醒（${exp.length}位）</div>${exp.map(s=>{const d=diffD(s.expireDate);return`<div class="alert-item"><span class="alert-dot"></span><b>${s.name}</b>（${clsStr(s)}）— ${d<0?'已過期'+Math.abs(d)+'天':d===0?'今天到期':d+'天後到期'}（${s.expireDate}）</div>`;}).join('')}</div>`:'';
 }
 
 function renderCheckinFilter(){
   const el=document.getElementById('checkin-filter');
-  if(!state.classes.length){el.innerHTML=`<div style="font-size:13px;color:var(--text2)">尚未建立班別，請先至「班別」頁面新增</div>`;return;}
-  el.innerHTML=state.classes.map(c=>{
-    const a=selCI===c.id;
-    return`<button class="chip" onclick="setCI('${c.id}')" style="background:${a?c.color:'var(--white)'};color:${a?'#fff':c.color};border-color:${c.color};font-weight:600">${c.name}</button>`;
-  }).join('');
+  if(!state.classes.length){el.innerHTML=`<div style="font-size:13px;color:var(--text2)">尚未建立班別</div>`;return;}
+  el.innerHTML=state.classes.map(c=>{const a=selCI===c.id;return`<button class="chip" onclick="setCI('${c.id}')" style="background:${a?c.color:'var(--white)'};color:${a?'#fff':c.color};border-color:${c.color};font-weight:600">${c.name}</button>`;}).join('');
 }
 function renderStudentFilter(){
   const allA=selSF==='all';
   document.getElementById('student-filter').innerHTML=
-    `<button class="chip" onclick="setSF('all')" style="background:${allA?'var(--pink)':'var(--white)'};color:${allA?'#fff':'var(--text2)'};border-color:${allA?'var(--pink)':'var(--border2)'}">全部</button>`+
+    `<button class="chip" onclick="setSF('all')" style="background:${allA?'var(--primary)':'var(--white)'};color:${allA?'#fff':'var(--text2)'};border-color:${allA?'var(--primary)':'var(--border2)'}">全部</button>`+
     state.classes.map(c=>{const a=selSF===c.id;return`<button class="chip" onclick="setSF('${c.id}')" style="background:${a?c.color:'var(--white)'};color:${a?'#fff':c.color};border-color:${c.color}">${c.name}</button>`;}).join('');
 }
 function setCI(id){selCI=id;renderCheckinFilter();renderCheckinList();}
@@ -676,22 +781,20 @@ function getRec(sid,cid,date){return[...state.history].reverse().find(h=>h.stude
 
 function renderCheckinList(){
   const el=document.getElementById('checkin-list');
-  if(!selCI){el.innerHTML=`<div class="empty"><div class="empty-icon">🎀</div>請先選擇班別</div>`;return;}
+  if(!selCI){el.innerHTML=`<div class="empty">請先選擇班別</div>`;return;}
   const cls=getCls(selCI);if(!cls){el.innerHTML='';return;}
   const date=selDate();
-  const members=state.students.filter(s=>s.classIds&&s.classIds.includes(selCI));
-  if(!members.length){el.innerHTML=`<div class="empty"><div class="empty-icon">🌸</div>此班級尚無學員</div>`;return;}
-  // Show course plan for this date
-  const assignment = cls.assignments&&cls.assignments[date];
-  const wo = assignment?state.workouts.find(w=>w.id===assignment):null;
-  let headerHtml = '';
-  if(wo){headerHtml=`<div style="background:var(--lavender-pale);border-radius:10px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:13px"><span style="font-weight:700;color:#6B44A0">${wo.num}</span><span style="color:var(--text2)">今日課表</span><button class="btn btn-sm" style="margin-left:auto;font-size:11px;padding:3px 8px" onclick="viewWorkout('${wo.id}')">查看</button></div>`;}
+  const members=state.students.filter(s=>isActive(s)&&s.classIds&&s.classIds.includes(selCI));
+  if(!members.length){el.innerHTML=`<div class="empty">此班級尚無上課中學員</div>`;return;}
+  const assignment=cls.assignments&&cls.assignments[date];
+  const wo=assignment?state.workouts.find(w=>w.id===assignment):null;
+  let headerHtml=wo?`<div style="background:var(--accent1-pale);border-radius:10px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:13px"><span style="font-weight:700;color:#6B44A0">${wo.num}</span><span style="color:var(--text2)">今日課表</span><button class="btn btn-sm" style="margin-left:auto;font-size:11px;padding:3px 8px" onclick="viewWorkout('${wo.id}')">查看</button></div>`:'';
   el.innerHTML=headerHtml+members.map(s=>{
     const rec=getRec(s.id,selCI,date);
     const [bc,bt]=badgeInfo(s);
     const low=(isLow(s)||isEmpty(s))&&!rec;
     const eW=isExpSoon(s)||isExpired(s);
-    const noteH=s.note?`<div class="note-tag">📋 ${s.note}</div>`:'';
+    const noteH=s.note?`<div class="note-tag">備註：${s.note}</div>`:'';
     let expT='';if(eW&&s.expireDate){const d=diffD(s.expireDate);expT=` <span class="expire-inline">${d<0?'已過期':d===0?'今日到期':d+'天後到期'}</span>`;}
     let sc=low?'low-bg':'';
     let acts='';
@@ -699,9 +802,9 @@ function renderCheckinList(){
       acts=(isEmpty(s)?`<button class="btn btn-sm" disabled style="opacity:0.4;font-size:11px">堂數用完</button>`:`<button class="btn btn-primary btn-sm" onclick="doCI('${s.id}','${selCI}')">簽到</button>`)+
         `<button class="btn btn-blue btn-sm" onclick="markAbs('${s.id}','${selCI}','excused')">請假</button>`+
         `<button class="btn btn-red btn-sm" onclick="markAbs('${s.id}','${selCI}','unexcused')">未到</button>`;
-    }else if(rec.type==='checkin'){sc='';acts=`<span class="time-tag">✅ ${rec.time}</span><button class="btn btn-sm btn-ghost" style="font-size:11px" onclick="cancelRec('${s.id}','${selCI}','${date}')">取消</button>`;}
-    else if(rec.type==='excused'){sc='excused-bg';acts=`<span class="absent-tag absent-excused">請假（不扣）</span><button class="btn btn-sm btn-ghost" style="font-size:11px" onclick="cancelRec('${s.id}','${selCI}','${date}')">取消</button>`;}
-    else if(rec.type==='unexcused'){sc='unexcused-bg';acts=`<span class="absent-tag absent-unexcused">未到（扣堂）</span><button class="btn btn-sm btn-ghost" style="font-size:11px" onclick="cancelRec('${s.id}','${selCI}','${date}')">取消</button>`;}
+    }else if(rec.type==='checkin'){sc='';acts=`<span class="time-tag">${rec.time} 已簽到</span><button class="btn btn-sm btn-ghost" onclick="cancelRec('${s.id}','${selCI}','${date}')">取消</button>`;}
+    else if(rec.type==='excused'){sc='excused-bg';acts=`<span class="absent-tag absent-excused">請假（不扣）</span><button class="btn btn-sm btn-ghost" onclick="cancelRec('${s.id}','${selCI}','${date}')">取消</button>`;}
+    else if(rec.type==='unexcused'){sc='unexcused-bg';acts=`<span class="absent-tag absent-unexcused">未到（扣堂）</span><button class="btn btn-sm btn-ghost" onclick="cancelRec('${s.id}','${selCI}','${date}')">取消</button>`;}
     return`<div class="check-item ${sc}">
       <div style="display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0">
         <div class="avatar" style="background:${cls.bg};color:${cls.color}">${ini(s.name)}</div>
@@ -719,13 +822,15 @@ function renderCheckinList(){
 function renderStudentRow(s){
   const [bc,bt]=badgeInfo(s);
   const tags=(s.classIds||[]).map(id=>{const c=getCls(id);return c?`<span style="font-size:10px;padding:1px 7px;border-radius:10px;background:${c.bg};color:${c.color};font-weight:600">${c.name}</span>`:''}).join('');
-  const noteH=s.note?`<div class="note-tag" style="margin-top:3px">📋 ${s.note}</div>`:'';
+  const noteH=s.note?`<div class="note-tag" style="margin-top:3px">備註：${s.note}</div>`:'';
   const joinH=s.joinDate?`<div class="join-dur" style="margin-top:3px">${durStr(s.joinDate)}</div>`:'';
   let expH='';
-  if(s.expireDate){const d=diffD(s.expireDate);const col=d<0?'#CC3355':d<=14?'#B87800':'var(--text2)';expH=`<div style="font-size:11px;color:${col};margin-top:2px">📅 ${d<0?'已過期'+Math.abs(d)+'天':d===0?'今天到期':d+'天後到期（'+s.expireDate+'）'}</div>`;}
-  return`<div class="student-row">
+  if(s.expireDate&&!isEnded(s)){const d=diffD(s.expireDate);const col=d<0?'#CC3355':d<=14?'#B87800':'var(--text2)';expH=`<div style="font-size:11px;color:${col};margin-top:2px">到期日：${d<0?'已過期'+Math.abs(d)+'天':d===0?'今天到期':d+'天後到期（'+s.expireDate+'）'}</div>`;}
+  const statusTag=isPaused(s)?`<span class="status-paused">暫停中</span>`:isEnded(s)?`<span class="status-ended">已結束</span>`:'';
+  const rowClass=isPaused(s)?'student-row paused-row':isEnded(s)?'student-row ended-row':'student-row';
+  return`<div class="${rowClass}">
     <div style="flex:1;min-width:0">
-      <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:14px;font-weight:700;color:var(--text)">${s.name}<span class="badge ${bc}">${bt}</span></div>
+      <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:14px;font-weight:700;color:var(--text)">${s.name}<span class="badge ${bc}">${bt}</span>${statusTag}</div>
       <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:3px">${tags}</div>
       ${noteH}${joinH}
       <div style="font-size:11px;color:var(--text2);margin-top:3px">剩餘 ${s.remainingSessions} / ${s.totalSessions} 堂</div>
@@ -734,7 +839,8 @@ function renderStudentRow(s){
     <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0;margin-left:8px">
       <button class="btn btn-sm btn-blue" onclick="openRecord('${s.id}')">課堂紀錄</button>
       <button class="btn btn-sm" onclick="openEdit('${s.id}')">編輯</button>
-      <button class="btn btn-sm ${isLow(s)||isEmpty(s)?'btn-warn':''}" onclick="openPur('${s.id}')">補購</button>
+      <button class="btn btn-sm" onclick="openStudentDetail('${s.id}')">狀態管理</button>
+      ${!isEnded(s)?`<button class="btn btn-sm ${isLow(s)||isEmpty(s)?'btn-warn':''}" onclick="openPur('${s.id}')">補購</button>`:''}
     </div>
   </div>`;
 }
@@ -743,35 +849,237 @@ function renderStudentList(){
   const el=document.getElementById('student-list');
   let f=state.students;
   if(selSF!=='all')f=f.filter(s=>s.classIds&&s.classIds.includes(selSF));
-  if(!f.length){el.innerHTML=`<div class="card"><div class="empty"><div class="empty-icon">🌸</div>${selSF==='all'?'尚無學員，請按右下角＋新增':'此班級尚無學員'}</div></div>`;return;}
-  if(selSF==='all'){
+  if(!f.length){el.innerHTML=`<div class="card"><div class="empty">${selSF==='all'?'尚無學員':'此班級尚無學員'}</div></div>`;return;}
+
+  const active=f.filter(s=>isActive(s));
+  const paused=f.filter(s=>isPaused(s));
+  const ended=f.filter(s=>isEnded(s));
+
+  function groupByClass(arr){
+    if(selSF!=='all'){return`<div class="card" style="padding:0.25rem 1rem">`+arr.map(s=>renderStudentRow(s)).join('')+`</div>`;}
     let html='';
-    state.classes.forEach(cls=>{const m=f.filter(s=>s.classIds&&s.classIds.includes(cls.id));if(!m.length)return;
+    state.classes.forEach(cls=>{const m=arr.filter(s=>s.classIds&&s.classIds.includes(cls.id));if(!m.length)return;
       html+=`<div class="cls-hd"><span style="width:10px;height:10px;border-radius:50%;background:${cls.color};display:inline-block"></span>${cls.name}<span style="font-size:11px;color:var(--text2);font-weight:400">${m.length}人</span></div><div class="card" style="padding:0.25rem 1rem;margin-bottom:14px">`+m.map(s=>renderStudentRow(s)).join('')+`</div>`;
     });
-    const nc=f.filter(s=>!s.classIds||s.classIds.length===0);
-    if(nc.length)html+=`<div class="cls-hd"><span style="width:10px;height:10px;border-radius:50%;background:var(--text2);display:inline-block"></span>未分班<span style="font-size:11px;color:var(--text2);font-weight:400">${nc.length}人</span></div><div class="card" style="padding:0.25rem 1rem;margin-bottom:14px">`+nc.map(s=>renderStudentRow(s)).join('')+`</div>`;
-    el.innerHTML=html||`<div class="card"><div class="empty"><div class="empty-icon">🌸</div>尚無學員</div></div>`;
-  }else{el.innerHTML=`<div class="card" style="padding:0.25rem 1rem">`+f.map(s=>renderStudentRow(s)).join('')+`</div>`;}
+    const nc=arr.filter(s=>!s.classIds||s.classIds.length===0);
+    if(nc.length)html+=`<div class="cls-hd">未分班<span style="font-size:11px;color:var(--text2);font-weight:400">${nc.length}人</span></div><div class="card" style="padding:0.25rem 1rem;margin-bottom:14px">`+nc.map(s=>renderStudentRow(s)).join('')+`</div>`;
+    return html;
+  }
+
+  let html='';
+  if(active.length)html+=groupByClass(active);
+  if(paused.length){html+=`<div class="cls-hd" style="margin-top:8px"><span style="font-size:12px;background:#EEF2FF;color:#4B5EA6;padding:2px 8px;border-radius:8px">暫停中 ${paused.length}人</span></div>`+groupByClass(paused);}
+  if(ended.length){html+=`<div class="cls-hd" style="margin-top:8px"><span style="font-size:12px;background:#F0F0F0;color:#888;padding:2px 8px;border-radius:8px">已結束 ${ended.length}人</span></div>`+groupByClass(ended);}
+  el.innerHTML=html||`<div class="card"><div class="empty">尚無學員</div></div>`;
+}
+
+// Student detail (status management)
+function openStudentDetail(id){
+  currentDetailId=id;
+  const s=state.students.find(x=>x.id===id);if(!s)return;
+  document.getElementById('sd-name').textContent=s.name;
+  const statusTag=isPaused(s)?`<span class="status-paused">暫停中</span>`:isEnded(s)?`<span class="status-ended">已結束</span>`:`<span class="badge badge-ok">上課中</span>`;
+  document.getElementById('sd-status-bar').innerHTML=statusTag;
+
+  // Action buttons
+  let actHtml='';
+  if(isActive(s)){
+    actHtml+=`<button class="btn btn-sm" style="background:#EEF2FF;color:#4B5EA6;border-color:#B0BAE8" onclick="openPauseModal('${id}')">設定暫停</button>`;
+    actHtml+=`<button class="btn btn-sm btn-grey" onclick="confirmEndCourse('${id}')">標記課程結束</button>`;
+  }
+  if(isPaused(s)){
+    actHtml+=`<button class="btn btn-sm btn-mint" onclick="openResumeModal('${id}')">恢復上課</button>`;
+    actHtml+=`<button class="btn btn-sm btn-grey" onclick="confirmEndCourse('${id}')">標記課程結束</button>`;
+  }
+  if(isEnded(s)){
+    actHtml+=`<button class="btn btn-sm btn-blue" onclick="reactivateStudent('${id}')">重新啟用</button>`;
+  }
+  document.getElementById('sd-actions').innerHTML=actHtml;
+
+  // Pause records
+  const pauses=s.pauseRecords||[];
+  const pauseSection=document.getElementById('sd-pause-section');
+  if(pauses.length){
+    pauseSection.style.display='block';
+    document.getElementById('sd-pause-list').innerHTML=pauses.map((p,i)=>`<div class="pause-record">
+      <div>暫停：${fmtDate(p.start)} ${p.end?'→ 恢復：'+fmtDate(p.end):' (暫停中)'}${p.days?' ｜ 順延 '+p.days+' 天':''}</div>
+    </div>`).join('');
+  }else{pauseSection.style.display='none';}
+
+  // Retro leave
+  pendingRetroLeaves=[];
+  document.getElementById('sd-retro-leave-list').innerHTML='';
+  const sel=document.getElementById('sd-leave-cls');
+  sel.innerHTML=state.classes.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  document.getElementById('sd-leave-date').value=new Date().toISOString().slice(0,10);
+
+  openModal('modal-student-detail');
+}
+
+function renderRetroLeaveList(){
+  document.getElementById('sd-retro-leave-list').innerHTML=pendingRetroLeaves.map((r,i)=>{
+    const cls=getCls(r.classId);
+    return`<div class="retro-item"><span>${fmtDate(r.date)} ${cls?`<span style="font-size:10px;background:${cls.bg};color:${cls.color};padding:1px 6px;border-radius:8px">${cls.name}</span>`:''}</span><button class="btn btn-red btn-sm" onclick="removeRetroLeave(${i})">x</button></div>`;
+  }).join('');
+}
+function addRetroLeave(){
+  const date=document.getElementById('sd-leave-date').value;
+  const classId=document.getElementById('sd-leave-cls').value;
+  if(!date||!classId){toast('請選擇日期和班別','w');return;}
+  if(pendingRetroLeaves.find(r=>r.date===date&&r.classId===classId)){toast('此日期已加入','w');return;}
+  // check if record already exists
+  const exists=state.history.find(h=>h.studentId===currentDetailId&&h.classId===classId&&h.date===date);
+  if(exists){toast('此日期已有紀錄','w');return;}
+  pendingRetroLeaves.push({date,classId});
+  pendingRetroLeaves.sort((a,b)=>a.date.localeCompare(b.date));
+  renderRetroLeaveList();
+}
+function removeRetroLeave(i){pendingRetroLeaves.splice(i,1);renderRetroLeaveList();}
+function saveRetroLeaves(){
+  if(!pendingRetroLeaves.length){closeModal('modal-student-detail');return;}
+  const s=state.students.find(x=>x.id===currentDetailId);if(!s)return;
+  pendingRetroLeaves.forEach(r=>{
+    state.history.push({studentId:currentDetailId,classId:r.classId,date:r.date,time:'00:00',type:'retro-leave',remainingAfter:s.remainingSessions});
+  });
+  save();renderAll();closeModal('modal-student-detail');toast('請假記錄已儲存');
+}
+
+// Override close for student detail to also save retro leaves
+function closeStudentDetail(){
+  if(pendingRetroLeaves.length){
+    if(confirm('有未儲存的請假記錄，要儲存嗎？'))saveRetroLeaves();else{pendingRetroLeaves=[];closeModal('modal-student-detail');}
+  }else{closeModal('modal-student-detail');}
+}
+
+// Pause / Resume
+function openPauseModal(id){
+  pauseTargetId=id;
+  document.getElementById('pause-title').textContent='設定課程暫停';
+  document.getElementById('pause-start').value=new Date().toISOString().slice(0,10);
+  document.getElementById('pause-end').value='';
+  openModal('modal-pause');
+}
+function confirmPause(){
+  const s=state.students.find(x=>x.id===pauseTargetId);if(!s)return;
+  const start=document.getElementById('pause-start').value;
+  if(!start){toast('請選擇暫停開始日期','w');return;}
+  if(!s.pauseRecords)s.pauseRecords=[];
+  const end=document.getElementById('pause-end').value;
+  s.pauseRecords.push({start,end:end||null,days:null});
+  s.status='paused';
+  save();renderAll();closeModal('modal-pause');
+  if(currentDetailId===pauseTargetId)openStudentDetail(pauseTargetId);
+  else closeModal('modal-student-detail');
+  toast('課程已設定暫停');
+}
+function openResumeModal(id){
+  resumeTargetId=id;
+  const s=state.students.find(x=>x.id===id);if(!s)return;
+  const pauses=s.pauseRecords||[];
+  const activeP=pauses.findIndex(p=>!p.end);
+  resumePauseIdx=activeP;
+  document.getElementById('resume-date').value=new Date().toISOString().slice(0,10);
+  const startDate=activeP>=0?pauses[activeP].start:'';
+  document.getElementById('resume-hint').textContent=startDate?`暫停開始日：${fmtDate(startDate)}，恢復後將自動計算順延天數`:'';
+  openModal('modal-resume');
+}
+function confirmResume(){
+  const s=state.students.find(x=>x.id===resumeTargetId);if(!s)return;
+  const resumeDate=document.getElementById('resume-date').value;
+  if(!resumeDate){toast('請選擇恢復日期','w');return;}
+  if(resumePauseIdx>=0&&s.pauseRecords[resumePauseIdx]){
+    const p=s.pauseRecords[resumePauseIdx];
+    p.end=resumeDate;
+    // calculate days
+    const days=Math.max(0,diffD_two(p.start,resumeDate));
+    p.days=days;
+    // extend expire date from resume date
+    if(s.expireDate&&days>0){
+      const remaining=parseInt(s.remainingSessions)||0;
+      // recalculate expire: remaining sessions from resume date
+      s.expireDate=addD(resumeDate,expDays(s.totalSessions));
+    }
+  }
+  s.status='active';
+  save();renderAll();closeModal('modal-resume');
+  openStudentDetail(resumeTargetId);
+  toast('課程已恢復，到期日已順延');
+}
+function diffD_two(a,b){const da=new Date(a),db=new Date(b);da.setHours(0,0,0,0);db.setHours(0,0,0,0);return Math.round((db-da)/86400000);}
+
+function confirmEndCourse(id){
+  if(!confirm('確定標記此學員課程結束？標記後將從簽到列表隱藏。'))return;
+  const s=state.students.find(x=>x.id===id);if(!s)return;
+  s.status='ended';
+  save();renderAll();closeModal('modal-student-detail');toast('課程已標記結束');
+}
+function reactivateStudent(id){
+  const s=state.students.find(x=>x.id===id);if(!s)return;
+  s.status='active';
+  save();renderAll();closeModal('modal-student-detail');toast('學員已重新啟用');
+}
+
+// Class members modal
+function openClassMembers(clsId){
+  cmClassId=clsId;cmTab='active';
+  const cls=getCls(clsId);if(!cls)return;
+  document.getElementById('cm-title').textContent=cls.name+' 學員列表';
+  renderCMList();
+  openModal('modal-class-members');
+}
+function setCMTab(tab){cmTab=tab;renderCMList();}
+function renderCMList(){
+  ['active','paused','ended'].forEach(t=>{
+    const btn=document.getElementById('cm-tab-'+t);
+    const labels={active:'上課中',paused:'暫停中',ended:'已結束'};
+    if(btn){btn.className='btn btn-sm'+(cmTab===t?' btn-primary':'');btn.textContent=labels[t];}
+  });
+  const members=state.students.filter(s=>s.classIds&&s.classIds.includes(cmClassId));
+  const filtered=members.filter(s=>getStatus(s)===cmTab);
+  const el=document.getElementById('cm-list');
+  if(!filtered.length){el.innerHTML=`<div class="empty">此分類尚無學員</div>`;return;}
+  el.innerHTML=filtered.map(s=>{
+    const [bc,bt]=badgeInfo(s);
+    const statusTag=isPaused(s)?`<span class="status-paused">暫停中</span>`:isEnded(s)?`<span class="status-ended">已結束</span>`:'';
+    return`<div class="class-member-item">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text)">${s.name} ${statusTag}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">${s.phone||''}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="badge ${bc}">${bt}</span>
+        <div style="font-size:11px;color:var(--text2);margin-top:3px">${s.expireDate?'到期：'+s.expireDate:''}</div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderClassList(){
   const el=document.getElementById('class-list');
-  if(!state.classes.length){el.innerHTML=`<div class="card"><div class="empty"><div class="empty-icon">🎀</div>尚未建立班別</div></div>`;return;}
+  if(!state.classes.length){el.innerHTML=`<div class="card"><div class="empty">尚未建立班別</div></div>`;return;}
   el.innerHTML=state.classes.map(cls=>{
     const wdNames=(cls.weekdays||[]).map(d=>WEEKDAYS[d]).join('、');
-    const futureDates=(cls.dates||[]).filter(d=>diffD(d)>=0).filter(d=>!cls.cancelled||!cls.cancelled.includes(d));
-    const nextDate=futureDates[0]||null;
+    const future=(cls.dates||[]).filter(d=>diffD(d)>=0&&(!cls.cancelled||!cls.cancelled.includes(d)));
+    const nextDate=future[0]||null;
+    const activeCount=state.students.filter(s=>isActive(s)&&s.classIds&&s.classIds.includes(cls.id)).length;
+    const pausedCount=state.students.filter(s=>isPaused(s)&&s.classIds&&s.classIds.includes(cls.id)).length;
+    const endedCount=state.students.filter(s=>isEnded(s)&&s.classIds&&s.classIds.includes(cls.id)).length;
     return`<div class="class-card">
       <div class="class-card-header">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:14px;height:36px;background:${cls.color};border-radius:4px;flex-shrink:0"></div>
-          <div>
+        <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+          <div style="width:12px;height:40px;background:${cls.color};border-radius:4px;flex-shrink:0"></div>
+          <div style="min-width:0">
             <div style="font-size:15px;font-weight:700;color:var(--text)">${cls.name}</div>
             <div style="font-size:12px;color:var(--text2)">每週${wdNames||'未設定'}${nextDate?' ・ 下次：'+fmtDate(nextDate):''}</div>
+            <div style="display:flex;gap:6px;margin-top:4px">
+              <span style="font-size:11px;background:var(--accent2-pale);color:#2D8B72;padding:1px 7px;border-radius:8px">上課中 ${activeCount}</span>
+              ${pausedCount?`<span style="font-size:11px;background:#EEF2FF;color:#4B5EA6;padding:1px 7px;border-radius:8px">暫停 ${pausedCount}</span>`:''}
+              ${endedCount?`<span style="font-size:11px;background:#F0F0F0;color:#888;padding:1px 7px;border-radius:8px">已結束 ${endedCount}</span>`:''}
+            </div>
           </div>
         </div>
-        <div style="display:flex;gap:6px">
+        <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0">
+          <button class="btn btn-sm btn-mint" onclick="openClassMembers('${cls.id}')">學員列表</button>
           <button class="btn btn-sm btn-blue" onclick="viewSchedule('${cls.id}')">排程</button>
           <button class="btn btn-sm" onclick="openClassModal('${cls.id}')">編輯</button>
           <button class="btn btn-sm btn-red" onclick="deleteClass('${cls.id}')">刪除</button>
@@ -783,32 +1091,30 @@ function renderClassList(){
 
 function renderWorkoutList(){
   const el=document.getElementById('workout-list');
-  if(!state.workouts.length){el.innerHTML=`<div class="card"><div class="empty"><div class="empty-icon">💪</div>尚未建立課表</div></div>`;return;}
-  el.innerHTML=state.workouts.map(wo=>{
-    return`<div class="workout-card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <span class="workout-num">${wo.num}</span>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-sm btn-blue" onclick="viewWorkout('${wo.id}')">查看</button>
-          <button class="btn btn-sm" onclick="openWorkoutModal('${wo.id}')">編輯</button>
-          <button class="btn btn-sm btn-red" onclick="deleteWorkout('${wo.id}')">刪除</button>
-        </div>
+  if(!state.workouts.length){el.innerHTML=`<div class="card"><div class="empty">尚未建立課表</div></div>`;return;}
+  el.innerHTML=state.workouts.map(wo=>`<div class="workout-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <span class="workout-num">${wo.num}</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-blue" onclick="viewWorkout('${wo.id}')">查看</button>
+        <button class="btn btn-sm" onclick="openWorkoutModal('${wo.id}')">編輯</button>
+        <button class="btn btn-sm btn-red" onclick="deleteWorkout('${wo.id}')">刪除</button>
       </div>
-      <div style="font-size:12px;color:var(--text2)">🔥 暖身・💪 主課表・🔥 腹肌訓練</div>
-      <div style="font-size:12px;color:var(--text3);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${wo.warmup||'（未填寫）'}</div>
-    </div>`;
-  }).join('');
+    </div>
+    <div style="font-size:12px;color:var(--text2)">暖身・主課表・腹肌訓練</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${wo.warmup||'（未填寫）'}</div>
+  </div>`).join('');
 }
 
 function renderHistory(){
   const el=document.getElementById('history-list');
-  if(!state.history.length){el.innerHTML='<div class="empty"><div class="empty-icon">📝</div>尚無紀錄</div>';return;}
-  const tl={checkin:'✅ 簽到',excused:'🔵 請假',unexcused:'🔴 未到扣堂',retroactive:'📋 回溯登記'};
+  if(!state.history.length){el.innerHTML='<div class="empty">尚無紀錄</div>';return;}
+  const tl={checkin:'簽到',excused:'請假',unexcused:'未到扣堂',retroactive:'回溯登記','retro-leave':'回溯請假'};
   el.innerHTML=[...state.history].reverse().slice(0,60).map(h=>{
     const s=state.students.find(x=>x.id===h.studentId);const cls=getCls(h.classId);
     return`<div class="hist-item">
       <div style="flex:1;min-width:0">
-        <div style="font-size:14px;font-weight:600;color:var(--text)">${s?s.name:'已刪除學員'}${cls?`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${cls.bg};color:${cls.color};margin-left:4px;font-weight:600">${cls.name}</span>`:''}<span style="font-size:11px;color:var(--text2);margin-left:4px">${tl[h.type]||'✅ 簽到'}</span></div>
+        <div style="font-size:14px;font-weight:600;color:var(--text)">${s?s.name:'已刪除學員'}${cls?`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${cls.bg};color:${cls.color};margin-left:4px;font-weight:600">${cls.name}</span>`:''}<span style="font-size:11px;color:var(--text2);margin-left:4px">${tl[h.type]||'簽到'}</span></div>
         <div style="font-size:12px;color:var(--text2)">${h.date} ${h.time}</div>
       </div>
       <div style="font-size:12px;color:var(--text2);white-space:nowrap">剩 ${h.remainingAfter} 堂</div>
@@ -817,68 +1123,32 @@ function renderHistory(){
 }
 
 function renderStats(){
+  const active=state.students.filter(s=>isActive(s));
   document.getElementById('st-total').textContent=state.students.length;
-  document.getElementById('st-low').textContent=state.students.filter(s=>isLow(s)||isEmpty(s)).length;
-  document.getElementById('st-exp').textContent=state.students.filter(s=>isExpSoon(s)||isExpired(s)).length;
+  document.getElementById('st-low').textContent=active.filter(s=>isLow(s)||isEmpty(s)).length;
+  document.getElementById('st-exp').textContent=active.filter(s=>isExpSoon(s)||isExpired(s)).length;
 }
 
-function renderAll(){checkSeasonWarn();renderAlerts();renderCheckinFilter();renderStudentFilter();renderCheckinList();renderStudentList();renderClassList();renderWorkoutList();renderHistory();renderStats();}
+function renderAll(){checkSeasonWarn();renderAlerts();renderCheckinFilter();renderStudentFilter();renderCheckinList();renderStudentList();renderClassList();renderWorkoutList();renderHistory();renderStats();renderThemeGrid();}
 
 function switchTab(t){
   ['checkin','students','classes','workouts','history'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'':'none');
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['checkin','students','classes','workouts','history'][i]===t));
 }
 
-// Retroactive dates
+// Retro add student
 function renderRetroDates(){
   const el=document.getElementById('retro-list');
   if(!retroDates.length){el.innerHTML='';return;}
-  el.innerHTML=retroDates.map((r,i)=>{
-    const cls=getCls(r.classId);
-    return`<div class="retro-item"><span>${fmtDate(r.date)} ${cls?`<span style="font-size:10px;background:${cls.bg};color:${cls.color};padding:1px 6px;border-radius:8px">${cls.name}</span>`:''}</span><button class="btn btn-red btn-sm" onclick="removeRetro(${i})">✕</button></div>`;
-  }).join('');
+  el.innerHTML=retroDates.map((r,i)=>{const cls=getCls(r.classId);return`<div class="retro-item"><span>${fmtDate(r.date)} ${cls?`<span style="font-size:10px;background:${cls.bg};color:${cls.color};padding:1px 6px;border-radius:8px">${cls.name}</span>`:''}</span><button class="btn btn-red btn-sm" onclick="removeRetro(${i})">x</button></div>`;}).join('');
 }
 function addRetroDate(){
-  const date=document.getElementById('retro-date').value;
-  const classId=document.getElementById('retro-cls').value;
+  const date=document.getElementById('retro-date').value;const classId=document.getElementById('retro-cls').value;
   if(!date||!classId){toast('請選擇日期和班別','w');return;}
   if(retroDates.find(r=>r.date===date&&r.classId===classId)){toast('此日期已加入','w');return;}
-  retroDates.push({date,classId});retroDates.sort((a,b)=>a.date.localeCompare(b.date));
-  renderRetroDates();
+  retroDates.push({date,classId});retroDates.sort((a,b)=>a.date.localeCompare(b.date));renderRetroDates();
 }
 function removeRetro(i){retroDates.splice(i,1);renderRetroDates();}
-
-function openAddModal(){
-  addCls=[];retroDates=[];
-  ['f-name','f-phone','f-note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-total').value='12';document.getElementById('f-exp').value='';document.getElementById('f-exp-hint').textContent='';document.getElementById('f-join-out').innerHTML='';
-  const d=new Date().toISOString().slice(0,10);
-  document.getElementById('f-buy').value=d;document.getElementById('f-join').value=d;
-  renderClsChips('f-cls',addCls,'togA');autoExp();showDur('f-join','f-join-out');
-  // populate retro class selector
-  const sel=document.getElementById('retro-cls');
-  sel.innerHTML=state.classes.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  renderRetroDates();
-  openModal('modal-add');
-}
-
-function addStudent(){
-  const name=document.getElementById('f-name').value.trim();if(!name){toast('請輸入姓名','w');return;}
-  const total=parseInt(document.getElementById('f-total').value)||12;
-  const usedByRetro=retroDates.length;
-  const remaining=Math.max(0,total-usedByRetro);
-  const id=Date.now().toString();
-  state.students.push({id,name,phone:document.getElementById('f-phone').value.trim(),classIds:[...addCls],joinDate:document.getElementById('f-join').value,totalSessions:total,remainingSessions:remaining,buyDate:document.getElementById('f-buy').value,expireDate:document.getElementById('f-exp').value,note:document.getElementById('f-note').value.trim()});
-  // add retroactive history
-  retroDates.forEach(r=>{
-    state.history.push({studentId:id,classId:r.classId,date:r.date,time:'00:00',type:'retroactive',remainingAfter:0});
-  });
-  // recalculate remaining after for retro entries
-  let rem=total;
-  const studentHistory=state.history.filter(h=>h.studentId===id).sort((a,b)=>a.date.localeCompare(b.date));
-  studentHistory.forEach(h=>{rem=Math.max(0,rem-1);h.remainingAfter=rem;});
-  save();renderAll();closeModal('modal-add');toast('學員已新增 🌸');
-}
 
 function renderClsChips(cid,selIds,fn){
   const el=document.getElementById(cid);
@@ -887,21 +1157,43 @@ function renderClsChips(cid,selIds,fn){
 function togA(id,v){if(v)addCls.push(id);else addCls=addCls.filter(x=>x!==id);renderClsChips('f-cls',addCls,'togA');}
 function togE(id,v){if(v)editCls.push(id);else editCls=editCls.filter(x=>x!==id);renderClsChips('e-cls',editCls,'togE');}
 
+function openAddModal(){
+  addCls=[];retroDates=[];
+  ['f-name','f-phone','f-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-total').value='12';document.getElementById('f-exp').value='';document.getElementById('f-exp-hint').textContent='';document.getElementById('f-join-out').innerHTML='';
+  const d=new Date().toISOString().slice(0,10);
+  document.getElementById('f-buy').value=d;document.getElementById('f-join').value=d;
+  renderClsChips('f-cls',addCls,'togA');autoExp();showDur('f-join','f-join-out');
+  const sel=document.getElementById('retro-cls');
+  sel.innerHTML=state.classes.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  renderRetroDates();openModal('modal-add');
+}
+function addStudent(){
+  const name=document.getElementById('f-name').value.trim();if(!name){toast('請輸入姓名','w');return;}
+  const total=parseInt(document.getElementById('f-total').value)||12;
+  const usedByRetro=retroDates.length;
+  const remaining=Math.max(0,total-usedByRetro);
+  const id=Date.now().toString();
+  state.students.push({id,name,phone:document.getElementById('f-phone').value.trim(),classIds:[...addCls],joinDate:document.getElementById('f-join').value,totalSessions:total,remainingSessions:remaining,buyDate:document.getElementById('f-buy').value,expireDate:document.getElementById('f-exp').value,note:document.getElementById('f-note').value.trim(),status:'active'});
+  retroDates.forEach(r=>{state.history.push({studentId:id,classId:r.classId,date:r.date,time:'00:00',type:'retroactive',remainingAfter:0});});
+  let rem=total;
+  state.history.filter(h=>h.studentId===id).sort((a,b)=>a.date.localeCompare(b.date)).forEach(h=>{rem=Math.max(0,rem-1);h.remainingAfter=rem;});
+  save();renderAll();closeModal('modal-add');toast('學員已新增');
+}
 function openEdit(id){
   const s=state.students.find(x=>x.id===id);if(!s)return;
   editId=id;editCls=[...(s.classIds||[])];
   document.getElementById('e-name').value=s.name;document.getElementById('e-phone').value=s.phone||'';document.getElementById('e-note').value=s.note||'';document.getElementById('e-join').value=s.joinDate||'';
-  renderClsChips('e-cls',editCls,'togE');showDur('e-join','e-join-out');
-  openModal('modal-edit');
+  renderClsChips('e-cls',editCls,'togE');showDur('e-join','e-join-out');openModal('modal-edit');
 }
 function confirmEdit(){
   const s=state.students.find(x=>x.id===editId);if(!s)return;
   s.name=document.getElementById('e-name').value.trim()||s.name;s.phone=document.getElementById('e-phone').value.trim();s.classIds=[...editCls];s.note=document.getElementById('e-note').value.trim();s.joinDate=document.getElementById('e-join').value;
-  save();renderAll();closeModal('modal-edit');toast('學員資料已更新 ✨');
+  save();renderAll();closeModal('modal-edit');toast('學員資料已更新');
 }
 function openPur(id){
   purId=id;const s=state.students.find(x=>x.id===id);
-  document.getElementById('pur-title').textContent='💝 補購堂數 — '+(s?s.name:'');
+  document.getElementById('pur-title').textContent='補購堂數 — '+(s?s.name:'');
   document.getElementById('p-add').value='12';document.getElementById('p-exp').value='';document.getElementById('p-exp-hint').textContent='';
   document.getElementById('p-buy').value=new Date().toISOString().slice(0,10);
   autoPurExp();openModal('modal-purchase');
@@ -910,41 +1202,34 @@ function confirmPurchase(){
   const s=state.students.find(x=>x.id===purId);if(!s)return;
   const add=parseInt(document.getElementById('p-add').value)||0;
   s.totalSessions+=add;s.remainingSessions+=add;s.expireDate=document.getElementById('p-exp').value;
-  save();renderAll();closeModal('modal-purchase');toast('已追加'+add+'堂 🎉');
+  save();renderAll();closeModal('modal-purchase');toast('已追加'+add+'堂');
 }
 
 // Class management
-let clsWeekdays=[], clsColorIdx=0;
+let clsWeekdays=[],clsColorIdx=0;
 function openClassModal(id){
-  editClassId=id||null;
-  clsWeekdays=[];clsColorIdx=0;
+  editClassId=id||null;clsWeekdays=[];clsColorIdx=0;
   if(id){
     const cls=getCls(id);if(!cls)return;
     document.getElementById('cls-name').value=cls.name;
     clsWeekdays=[...(cls.weekdays||[])];
-    clsColorIdx=COLOR_OPTIONS.findIndex(c=>c.color===cls.color)||0;
+    clsColorIdx=Math.max(0,COLOR_OPTIONS.findIndex(c=>c.color===cls.color));
     document.getElementById('cls-start').value=cls.startDate||new Date().toISOString().slice(0,10);
-    document.getElementById('cls-modal-title').textContent='✏️ 編輯班別';
+    document.getElementById('cls-modal-title').textContent='編輯班別';
   }else{
     document.getElementById('cls-name').value='';
     document.getElementById('cls-start').value=new Date().toISOString().slice(0,10);
-    document.getElementById('cls-modal-title').textContent='🎀 新增班別';
+    document.getElementById('cls-modal-title').textContent='新增班別';
   }
-  renderColorPicker();renderWeekdayGrid();
-  openModal('modal-class');
+  renderColorPicker();renderWeekdayGrid();openModal('modal-class');
 }
-function renderColorPicker(){
-  document.getElementById('cls-color-picker').innerHTML=COLOR_OPTIONS.map((c,i)=>`<div onclick="selectColor(${i})" style="width:32px;height:32px;border-radius:50%;background:${c.color};cursor:pointer;border:3px solid ${clsColorIdx===i?'var(--text)':'transparent'};box-shadow:${clsColorIdx===i?'0 0 0 2px white inset':'none'}" title="${c.name}"></div>`).join('');
-}
+function renderColorPicker(){document.getElementById('cls-color-picker').innerHTML=COLOR_OPTIONS.map((c,i)=>`<div onclick="selectColor(${i})" style="width:32px;height:32px;border-radius:50%;background:${c.color};cursor:pointer;border:3px solid ${clsColorIdx===i?'var(--text)':'transparent'};box-shadow:${clsColorIdx===i?'0 0 0 2px white inset':'none'}" title=""></div>`).join('');}
 function selectColor(i){clsColorIdx=i;renderColorPicker();}
-function renderWeekdayGrid(){
-  document.getElementById('cls-weekdays').innerHTML=WEEKDAYS.map((d,i)=>`<button class="weekday-btn ${clsWeekdays.includes(i)?'active':''}" onclick="toggleWeekday(${i})">${d}</button>`).join('');
-}
+function renderWeekdayGrid(){document.getElementById('cls-weekdays').innerHTML=WEEKDAYS.map((d,i)=>`<button class="weekday-btn ${clsWeekdays.includes(i)?'active':''}" onclick="toggleWeekday(${i})">${d}</button>`).join('');}
 function toggleWeekday(i){if(clsWeekdays.includes(i))clsWeekdays=clsWeekdays.filter(x=>x!==i);else clsWeekdays.push(i);renderWeekdayGrid();}
 function saveClass(){
   const name=document.getElementById('cls-name').value.trim();if(!name){toast('請輸入班別名稱','w');return;}
-  const startDate=document.getElementById('cls-start').value;
-  const col=COLOR_OPTIONS[clsColorIdx];
+  const startDate=document.getElementById('cls-start').value;const col=COLOR_OPTIONS[clsColorIdx];
   const dates=clsWeekdays.length&&startDate?genSeasonDates(startDate,clsWeekdays):[];
   if(editClassId){
     const cls=getCls(editClassId);if(!cls)return;
@@ -955,7 +1240,7 @@ function saveClass(){
     state.classes.push({id,name,color:col.color,bg:col.bg,weekdays:clsWeekdays,startDate,dates,cancelled:[],assignments:{}});
     if(!selCI)selCI=id;
   }
-  save();renderAll();closeModal('modal-class');toast('班別已儲存 🎀');
+  save();renderAll();closeModal('modal-class');toast('班別已儲存');
 }
 function deleteClass(id){
   if(!confirm('確定刪除此班別？'))return;
@@ -963,104 +1248,62 @@ function deleteClass(id){
   if(selCI===id)selCI=state.classes.length?state.classes[0].id:'';
   save();renderAll();toast('班別已刪除');
 }
-
 function viewSchedule(clsId){
   const cls=getCls(clsId);if(!cls)return;
   assignClassId=clsId;
-  document.getElementById('sch-title').textContent='📅 '+cls.name+' 排程';
-  const all=cls.dates||[];
-  const future=all.filter(d=>diffD(d)>=-30);
-  // Season end warning
+  document.getElementById('sch-title').textContent=cls.name+' 排程';
+  const future=(cls.dates||[]).filter(d=>diffD(d)>=-30);
   const remaining=future.filter(d=>diffD(d)>=0&&(!cls.cancelled||!cls.cancelled.includes(d)));
-  const warnEl=document.getElementById('season-end-warn');
-  warnEl.innerHTML=remaining.length<=3?`<div class="alert alert-danger" style="margin-bottom:10px"><div class="alert-title">⚠️ 排程即將結束，請盡快更新！</div></div>`:'';
+  document.getElementById('sch-season-warn').innerHTML=remaining.length<=3?`<div class="alert alert-danger" style="margin-bottom:10px"><div class="alert-title">排程即將結束，請盡快更新</div></div>`:'';
   document.getElementById('sch-range').textContent=future.length?`${fmtDate(future[0])} ～ ${fmtDate(future[future.length-1])}`:'尚未設定排程';
-  const wo_options=state.workouts.map(w=>`<option value="${w.id}">${w.num}</option>`).join('');
   document.getElementById('sch-list').innerHTML=future.map(d=>{
     const cancelled=cls.cancelled&&cls.cancelled.includes(d);
-    const assignment=cls.assignments&&cls.assignments[d];
-    const wo=assignment?state.workouts.find(w=>w.id===assignment):null;
+    const wo=cls.assignments&&cls.assignments[d]?state.workouts.find(w=>w.id===cls.assignments[d]):null;
     return`<div class="schedule-date-item ${cancelled?'cancelled':'normal'}">
       <span>${fmtDate(d)}（${WEEKDAYS[new Date(d).getDay()]}）</span>
-      <div style="display:flex;gap:6px;align-items:center">
-        ${wo?`<span class="course-tag" onclick="viewWorkout('${wo.id}')" style="cursor:pointer">${wo.num}</span>`:''} 
+      <div style="display:flex;gap:5px;align-items:center">
+        ${wo?`<span class="course-tag" onclick="viewWorkout('${wo.id}')">${wo.num}</span>`:''}
         ${!cancelled?`<button class="btn btn-sm" style="font-size:10px;padding:3px 7px" onclick="assignWorkoutToDate('${d}')">指定課表</button><button class="btn btn-red btn-sm" style="font-size:10px;padding:3px 7px" onclick="cancelDate('${clsId}','${d}')">停課</button>`:`<button class="btn btn-sm" style="font-size:10px;padding:3px 7px" onclick="restoreDate('${clsId}','${d}')">恢復</button>`}
       </div>
     </div>`;
   }).join('');
   openModal('modal-schedule');
 }
-function cancelDate(clsId,date){
-  const cls=getCls(clsId);if(!cls)return;
-  if(!cls.cancelled)cls.cancelled=[];
-  if(!cls.cancelled.includes(date))cls.cancelled.push(date);
-  save();viewSchedule(clsId);toast('已標記停課');
-}
-function restoreDate(clsId,date){
-  const cls=getCls(clsId);if(!cls)return;
-  cls.cancelled=(cls.cancelled||[]).filter(d=>d!==date);
-  save();viewSchedule(clsId);toast('已恢復上課');
-}
-
+function cancelDate(clsId,date){const cls=getCls(clsId);if(!cls)return;if(!cls.cancelled)cls.cancelled=[];if(!cls.cancelled.includes(date))cls.cancelled.push(date);save();viewSchedule(clsId);toast('已標記停課');}
+function restoreDate(clsId,date){const cls=getCls(clsId);if(!cls)return;cls.cancelled=(cls.cancelled||[]).filter(d=>d!==date);save();viewSchedule(clsId);toast('已恢復上課');}
 function assignWorkoutToDate(date){
   assignDate=date;
-  document.getElementById('assign-date-label').textContent=`${fmtDate(date)} 指定課表`;
+  document.getElementById('assign-date-label').textContent=fmtDate(date)+' 指定課表';
   const sel=document.getElementById('assign-workout-sel');
   sel.innerHTML=`<option value="">（不指定）</option>`+state.workouts.map(w=>`<option value="${w.id}">${w.num}</option>`).join('');
-  const cls=getCls(assignClassId);
-  if(cls&&cls.assignments&&cls.assignments[date])sel.value=cls.assignments[date];
+  const cls=getCls(assignClassId);if(cls&&cls.assignments&&cls.assignments[date])sel.value=cls.assignments[date];
   openModal('modal-assign-workout');
 }
 function confirmAssignWorkout(){
-  const cls=getCls(assignClassId);if(!cls)return;
-  if(!cls.assignments)cls.assignments={};
+  const cls=getCls(assignClassId);if(!cls)return;if(!cls.assignments)cls.assignments={};
   const val=document.getElementById('assign-workout-sel').value;
   if(val)cls.assignments[assignDate]=val;else delete cls.assignments[assignDate];
-  save();closeModal('modal-assign-workout');viewSchedule(assignClassId);toast('課表已指定 📋');
+  save();closeModal('modal-assign-workout');viewSchedule(assignClassId);toast('課表已指定');
 }
 
 // Workout management
 function openWorkoutModal(id){
   editWorkoutId=id||null;
-  if(id){
-    const wo=state.workouts.find(w=>w.id===id);if(!wo)return;
-    document.getElementById('wo-warmup').value=wo.warmup||'';
-    document.getElementById('wo-main').value=wo.main||'';
-    document.getElementById('wo-core').value=wo.core||'';
-    document.getElementById('wo-modal-title').textContent='✏️ 編輯課表 '+wo.num;
-  }else{
-    ['wo-warmup','wo-main','wo-core'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('wo-modal-title').textContent='💪 新增課表';
-  }
+  if(id){const wo=state.workouts.find(w=>w.id===id);if(!wo)return;document.getElementById('wo-warmup').value=wo.warmup||'';document.getElementById('wo-main').value=wo.main||'';document.getElementById('wo-core').value=wo.core||'';document.getElementById('wo-modal-title').textContent='編輯課表 '+wo.num;}
+  else{['wo-warmup','wo-main','wo-core'].forEach(id=>document.getElementById(id).value='');document.getElementById('wo-modal-title').textContent='新增課表';}
   openModal('modal-workout');
 }
 function saveWorkout(){
-  const warmup=document.getElementById('wo-warmup').value.trim();
-  const main=document.getElementById('wo-main').value.trim();
-  const core=document.getElementById('wo-core').value.trim();
-  if(editWorkoutId){
-    const wo=state.workouts.find(w=>w.id===editWorkoutId);if(!wo)return;
-    wo.warmup=warmup;wo.main=main;wo.core=core;
-  }else{
-    state.workouts.push({id:'wo_'+Date.now(),num:genWorkoutNum(state.workouts),warmup,main,core});
-  }
-  save();renderAll();closeModal('modal-workout');toast('課表已儲存 💪');
+  const warmup=document.getElementById('wo-warmup').value.trim();const main=document.getElementById('wo-main').value.trim();const core=document.getElementById('wo-core').value.trim();
+  if(editWorkoutId){const wo=state.workouts.find(w=>w.id===editWorkoutId);if(!wo)return;wo.warmup=warmup;wo.main=main;wo.core=core;}
+  else{state.workouts.push({id:'wo_'+Date.now(),num:genWorkoutNum(state.workouts),warmup,main,core});}
+  save();renderAll();closeModal('modal-workout');toast('課表已儲存');
 }
-function deleteWorkout(id){
-  if(!confirm('確定刪除此課表？'))return;
-  state.workouts=state.workouts.filter(w=>w.id!==id);
-  save();renderAll();toast('課表已刪除');
-}
+function deleteWorkout(id){if(!confirm('確定刪除此課表？'))return;state.workouts=state.workouts.filter(w=>w.id!==id);save();renderAll();toast('課表已刪除');}
 function viewWorkout(id){
-  viewWorkoutId=id;
-  const wo=state.workouts.find(w=>w.id===id);if(!wo)return;
+  viewWorkoutId=id;const wo=state.workouts.find(w=>w.id===id);if(!wo)return;
   document.getElementById('wd-num').textContent=wo.num;
-  document.getElementById('wd-warmup').textContent=wo.warmup||'（未填寫）';
-  document.getElementById('wd-warmup').className='workout-content'+(wo.warmup?'':' empty-content');
-  document.getElementById('wd-main').textContent=wo.main||'（未填寫）';
-  document.getElementById('wd-main').className='workout-content'+(wo.main?'':' empty-content');
-  document.getElementById('wd-core').textContent=wo.core||'（未填寫）';
-  document.getElementById('wd-core').className='workout-content'+(wo.core?'':' empty-content');
+  ['warmup','main','core'].forEach(k=>{const el=document.getElementById('wd-'+k);el.textContent=wo[k]||'（未填寫）';el.className='workout-content'+(wo[k]?'':' empty-content');});
   openModal('modal-workout-detail');
 }
 function editWorkoutFromDetail(){closeModal('modal-workout-detail');openWorkoutModal(viewWorkoutId);}
@@ -1068,38 +1311,33 @@ function editWorkoutFromDetail(){closeModal('modal-workout-detail');openWorkoutM
 // Checkin actions
 function showConfirm(s,classId){
   const cls=getCls(classId);
-  document.getElementById('cf-name').textContent=s.name+' 簽到成功！';
+  document.getElementById('cf-name').textContent=s.name+' 簽到成功';
   document.getElementById('cf-class').textContent=cls?cls.name:'';
   document.getElementById('cf-date').textContent=selDate()+' '+nowT();
   document.getElementById('cf-remain').textContent='剩餘 '+s.remainingSessions+' 堂';
   document.getElementById('cf-expire-txt').textContent=s.expireDate?'課程到期日：'+s.expireDate:'';
   const w=document.getElementById('cf-warn');
-  if(isEmpty(s)){w.textContent='⚠️ 堂數已全數用完，請盡快補購！';w.style.display='block';}
-  else if(s.remainingSessions===1){w.textContent='⚠️ 下次上課前請記得補購堂數！';w.style.display='block';}
-  else if(isLow(s)){w.textContent='⚠️ 堂數僅剩'+s.remainingSessions+'堂，建議盡快補購。';w.style.display='block';}
+  if(isEmpty(s)){w.textContent='堂數已全數用完，請盡快補購';w.style.display='block';}
+  else if(s.remainingSessions===1){w.textContent='下次上課前請記得補購堂數';w.style.display='block';}
+  else if(isLow(s)){w.textContent='堂數僅剩'+s.remainingSessions+'堂，建議盡快補購';w.style.display='block';}
   else{w.style.display='none';}
   document.getElementById('shot-hint').style.display='none';
-  document.getElementById('btn-shot').textContent='📸 截取畫面';
+  document.getElementById('btn-shot').textContent='截取畫面';
   document.getElementById('btn-shot').disabled=false;
   openModal('modal-confirm');
 }
 function doShot(){
-  const el=document.getElementById('confirm-snap');
-  const btn=document.getElementById('btn-shot');
-  const hint=document.getElementById('shot-hint');
+  const el=document.getElementById('confirm-snap');const btn=document.getElementById('btn-shot');const hint=document.getElementById('shot-hint');
   btn.textContent='截取中...';btn.disabled=true;
   html2canvas(el,{backgroundColor:'#ffffff',scale:2,useCORS:true,logging:false}).then(canvas=>{
     canvas.toBlob(blob=>{
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');a.href=url;
+      const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
       a.download='簽到確認_'+new Date().toISOString().slice(0,16).replace('T','_')+'.png';
       document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-      btn.textContent='📸 截取畫面';btn.disabled=false;
-      hint.textContent='圖片已儲存 🌸';hint.style.display='block';
+      btn.textContent='截取畫面';btn.disabled=false;hint.textContent='圖片已儲存';hint.style.display='block';
     });
-  }).catch(()=>{btn.textContent='📸 截取畫面';btn.disabled=false;hint.textContent='請手動截圖（側鍵+音量鍵）';hint.style.display='block';});
+  }).catch(()=>{btn.textContent='截取畫面';btn.disabled=false;hint.textContent='請手動截圖（側鍵+音量鍵）';hint.style.display='block';});
 }
-
 function openRecord(id){
   const s=state.students.find(x=>x.id===id);if(!s)return;
   document.getElementById('sr-name').textContent=s.name;
@@ -1108,32 +1346,28 @@ function openRecord(id){
   document.getElementById('sr-meta').textContent=meta;
   document.getElementById('sr-total').textContent=s.totalSessions;
   document.getElementById('sr-used').textContent=s.totalSessions-s.remainingSessions;
-  const rem=document.getElementById('sr-remain');rem.textContent=s.remainingSessions;rem.style.color=isEmpty(s)?'#CC3355':isLow(s)?'#B87800':'var(--pink)';
+  const rem=document.getElementById('sr-remain');rem.textContent=s.remainingSessions;rem.style.color=isEmpty(s)?'#CC3355':isLow(s)?'#B87800':'var(--primary)';
   const expEl=document.getElementById('sr-exp-info');
-  if(s.expireDate){const d=diffD(s.expireDate);const col=d<0?'#CC3355':d<=14?'#B87800':'var(--text2)';expEl.innerHTML=`<span style="color:${col}">📅 課程到期日：${s.expireDate}（${d<0?'已過期'+Math.abs(d)+'天':d===0?'今天到期':d+'天後到期'}）</span>`;}else{expEl.textContent='';}
+  if(s.expireDate){const d=diffD(s.expireDate);const col=d<0?'#CC3355':d<=14?'#B87800':'var(--text2)';expEl.innerHTML=`<span style="color:${col}">課程到期日：${s.expireDate}（${d<0?'已過期'+Math.abs(d)+'天':d===0?'今天到期':d+'天後到期'}）</span>`;}else{expEl.textContent='';}
   const recs=state.history.filter(h=>h.studentId===id).reverse();
-  const tl={checkin:'✅ 簽到',excused:'🔵 請假（不扣堂）',unexcused:'🔴 未到（已扣堂）',retroactive:'📋 回溯登記'};
+  const tl={checkin:'簽到',excused:'請假（不扣堂）',unexcused:'未到（已扣堂）',retroactive:'回溯登記','retro-leave':'回溯請假'};
   const recEl=document.getElementById('sr-records');
   if(!recs.length){recEl.innerHTML='<div style="font-size:13px;color:var(--text2);padding:8px 0">尚無上課紀錄</div>';}
   else{
     recEl.innerHTML=recs.map(h=>{const cls=getCls(h.classId);return`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--border);font-size:13px">
-      <div><span style="color:var(--text)">${h.date}</span>${cls?`<span style="font-size:10px;padding:1px 5px;border-radius:8px;background:${cls.bg};color:${cls.color};margin-left:5px;font-weight:600">${cls.name}</span>`:''}<span style="color:var(--text2);font-size:11px;margin-left:4px">${tl[h.type]||'✅ 簽到'}</span></div>
+      <div><span style="color:var(--text)">${h.date}</span>${cls?`<span style="font-size:10px;padding:1px 5px;border-radius:8px;background:${cls.bg};color:${cls.color};margin-left:5px;font-weight:600">${cls.name}</span>`:''}<span style="color:var(--text2);font-size:11px;margin-left:4px">${tl[h.type]||'簽到'}</span></div>
       <div style="color:var(--text2);font-size:12px">剩 ${h.remainingAfter} 堂</div>
     </div>`;}).join('')+
-    `<div style="font-size:11px;color:var(--text2);padding-top:6px">共 ${recs.filter(h=>h.type==='checkin'||h.type==='retroactive').length} 次到課・${recs.filter(h=>h.type==='excused').length} 次請假・${recs.filter(h=>h.type==='unexcused').length} 次未到</div>`;
+    `<div style="font-size:11px;color:var(--text2);padding-top:6px">到課 ${recs.filter(h=>h.type==='checkin'||h.type==='retroactive').length} 次・請假 ${recs.filter(h=>h.type==='excused'||h.type==='retro-leave').length} 次・未到 ${recs.filter(h=>h.type==='unexcused').length} 次</div>`;
   }
   openModal('modal-record');
 }
 function doRecordShot(){
   const el=document.getElementById('record-snap');
   html2canvas(el,{backgroundColor:'#ffffff',scale:2,useCORS:true,logging:false}).then(canvas=>{
-    canvas.toBlob(blob=>{
-      const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='課堂紀錄_'+new Date().toISOString().slice(0,10)+'.png';
-      document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('課堂紀錄已儲存 🌸');
-    });
+    canvas.toBlob(blob=>{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='課堂紀錄_'+new Date().toISOString().slice(0,10)+'.png';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('課堂紀錄已儲存');});
   }).catch(()=>toast('截圖失敗，請手動截圖','w'));
 }
-
 function doCI(studentId,classId){
   const s=state.students.find(x=>x.id===studentId);
   if(!s||isEmpty(s)){toast('堂數已用完','d');return;}
@@ -1146,7 +1380,7 @@ function markAbs(studentId,classId,type){
   if(type==='unexcused'&&!isEmpty(s))s.remainingSessions-=1;
   state.history.push({studentId,classId,date:selDate(),time:nowT(),type,remainingAfter:s.remainingSessions});
   save();renderAll();
-  toast(type==='excused'?s.name+' 請假，不扣堂 🔵':s.name+' 未到，已扣1堂 🔴',type==='unexcused'?'w':'');
+  toast(type==='excused'?s.name+' 請假，不扣堂':s.name+' 未到，已扣1堂',type==='unexcused'?'w':'');
 }
 function cancelRec(studentId,classId,date){
   const s=state.students.find(x=>x.id===studentId);if(!s)return;
