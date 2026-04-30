@@ -221,8 +221,14 @@ input, textarea, select, button { font-family: inherit; }
 <div class="app">
   <div class="header">
     <div class="header-top">
-      <div class="header-title">健身課程管理</div>
-      <button class="theme-btn" onclick="openModal('modal-theme')">主題色彩</button>
+      <div>
+        <div class="header-title">健身課程管理</div>
+        <div id="sync-status" style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:1px">連線中...</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="theme-btn" onclick="exportExcel()">匯出備份</button>
+        <button class="theme-btn" onclick="openModal('modal-theme')">主題色彩</button>
+      </div>
     </div>
     <div class="tab-bar">
       <button class="tab active" onclick="switchTab('checkin')">簽到</button>
@@ -1392,7 +1398,144 @@ function cancelRec(studentId,classId,date){
   save();renderAll();toast('已取消記錄');
 }
 
+// ===================== FIREBASE =====================
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAUZ4c9aQ4AFkB_eGBSMOe6KKLInxsUURg",
+  authDomain: "fitness-app-c5a5c.firebaseapp.com",
+  projectId: "fitness-app-c5a5c",
+  storageBucket: "fitness-app-c5a5c.firebasestorage.app",
+  messagingSenderId: "752890843352",
+  appId: "1:752890843352:web:b79a02715ab4208d9d87ad"
+};
+
+let db = null;
+let firebaseReady = false;
+
+async function initFirebase() {
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+    const { getFirestore, doc, setDoc, getDoc, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const app = initializeApp(FIREBASE_CONFIG);
+    db = getFirestore(app);
+    firebaseReady = true;
+
+    // Listen for real-time updates from Firebase
+    const docRef = doc(db, 'app', 'state');
+    onSnapshot(docRef, (snap) => {
+      if (snap.exists()) {
+        const remote = snap.data();
+        // Only update if remote is newer
+        if (!state._updatedAt || (remote._updatedAt && remote._updatedAt > state._updatedAt)) {
+          state = remote;
+          if (!state.students) state.students = [];
+          if (!state.history) state.history = [];
+          if (!state.classes) state.classes = [];
+          if (!state.workouts) state.workouts = [];
+          if (!state.themeIdx) state.themeIdx = 0;
+          localStorage.setItem(KEY, JSON.stringify(state));
+          applyTheme(state.themeIdx);
+          renderAll();
+        }
+      }
+    });
+
+    updateSyncStatus('已連線');
+    console.log('Firebase connected');
+  } catch(e) {
+    console.warn('Firebase init failed:', e);
+    updateSyncStatus('離線模式');
+  }
+}
+
+async function saveToFirebase() {
+  if (!firebaseReady || !db) return;
+  try {
+    const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    state._updatedAt = Date.now();
+    await setDoc(doc(db, 'app', 'state'), state);
+  } catch(e) {
+    console.warn('Firebase save failed:', e);
+    updateSyncStatus('同步失敗');
+  }
+}
+
+function updateSyncStatus(msg) {
+  const el = document.getElementById('sync-status');
+  if (el) el.textContent = msg;
+}
+
+// Override save to also sync Firebase
+const _origSave = save;
+window.save = function() {
+  _origSave();
+  saveToFirebase();
+};
+
+// ===================== EXCEL EXPORT =====================
+async function exportExcel() {
+  try {
+    // Load SheetJS
+    if (!window.XLSX) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    const wb = XLSX.utils.book_new();
+
+    // Sheet 1: 學員名單
+    const studentHeaders = ['姓名','電話','班別','狀態','購買堂數','已使用','剩餘堂數','加入日期','到期日','備註'];
+    const studentRows = state.students.map(s => {
+      const clsNames = (s.classIds||[]).map(id => { const c = getCls(id); return c ? c.name : ''; }).filter(Boolean).join('、');
+      const statusMap = { active: '上課中', paused: '暫停中', ended: '已結束' };
+      return [
+        s.name, s.phone||'', clsNames,
+        statusMap[s.status||'active'],
+        s.totalSessions, s.totalSessions - s.remainingSessions,
+        s.remainingSessions, s.joinDate||'', s.expireDate||'', s.note||''
+      ];
+    });
+    const ws1 = XLSX.utils.aoa_to_sheet([studentHeaders, ...studentRows]);
+    ws1['!cols'] = [14,14,20,8,8,8,8,12,12,20].map(w=>({wch:w}));
+    XLSX.utils.book_append_sheet(wb, ws1, '學員名單');
+
+    // Sheet 2: 上課紀錄
+    const histHeaders = ['日期','時間','學員姓名','班別','紀錄類型','使用後剩餘堂數'];
+    const typeMap = { checkin:'簽到', excused:'請假', unexcused:'未到扣堂', retroactive:'回溯登記', 'retro-leave':'回溯請假' };
+    const histRows = [...state.history].reverse().map(h => {
+      const s = state.students.find(x => x.id === h.studentId);
+      const cls = getCls(h.classId);
+      return [
+        h.date, h.time, s ? s.name : '已刪除學員',
+        cls ? cls.name : '', typeMap[h.type]||'簽到', h.remainingAfter
+      ];
+    });
+    const ws2 = XLSX.utils.aoa_to_sheet([histHeaders, ...histRows]);
+    ws2['!cols'] = [12,8,14,16,12,12].map(w=>({wch:w}));
+    XLSX.utils.book_append_sheet(wb, ws2, '上課紀錄');
+
+    // Sheet 3: 課表管理
+    const woHeaders = ['課表編號','暖身內容','主課表內容','腹肌訓練內容'];
+    const woRows = state.workouts.map(wo => [wo.num, wo.warmup||'', wo.main||'', wo.core||'']);
+    const ws3 = XLSX.utils.aoa_to_sheet([woHeaders, ...woRows]);
+    ws3['!cols'] = [10,40,40,40].map(w=>({wch:w}));
+    XLSX.utils.book_append_sheet(wb, ws3, '課表管理');
+
+    const fileName = '健身課程管理_' + new Date().toISOString().slice(0,10) + '.xlsx';
+    XLSX.writeFile(wb, fileName);
+    toast('已匯出 Excel 備份');
+  } catch(e) {
+    toast('匯出失敗，請重試','w');
+    console.error(e);
+  }
+}
+
+// Init Firebase on load
+initFirebase();
 load();
 </script>
 </body>
 </html>
+
