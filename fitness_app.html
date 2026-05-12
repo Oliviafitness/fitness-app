@@ -368,6 +368,17 @@ input, textarea, select, button { font-family: inherit; }
       <div id="e-join-out"></div>
     </div>
     <div class="form-group"><label>特殊狀況備註</label><textarea id="e-note"></textarea></div>
+    <hr class="divider">
+    <div class="form-group">
+      <label>回溯已上課日期（扣堂數）</label>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">登記過去已上課但未記錄的日期，系統將自動扣除堂數</div>
+      <div id="e-retro-list" style="margin-bottom:8px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="date" id="e-retro-date" style="flex:1;min-width:100px;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)">
+        <select id="e-retro-cls" style="flex:1;min-width:100px;font-size:13px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text)"></select>
+        <button class="btn btn-mint btn-sm" onclick="addEditRetroDate()">加入</button>
+      </div>
+    </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-edit')">取消</button>
       <button class="btn btn-primary" onclick="confirmEdit()">儲存</button>
@@ -530,12 +541,47 @@ input, textarea, select, button { font-family: inherit; }
 <!-- 班別排程 -->
 <div class="overlay" id="modal-schedule">
   <div class="modal">
-    <div class="modal-title" id="sch-title">課程排程</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div class="modal-title" style="margin:0" id="sch-title">課程排程</div>
+      <button class="btn btn-primary btn-sm" onclick="openAddSeasonModal()">+ 新增排程</button>
+    </div>
     <div style="font-size:12px;color:var(--text2);margin-bottom:10px" id="sch-range"></div>
     <div id="sch-season-warn"></div>
     <div class="schedule-list" id="sch-list"></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-schedule')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- 新增排程季 -->
+<div class="overlay" id="modal-add-season">
+  <div class="modal">
+    <div class="modal-title">新增排程</div>
+    <div class="form-group">
+      <label>新起始日期</label>
+      <input id="season-start" type="date">
+    </div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:12px">將從此日期起，依班別設定的每週上課日，自動新增一季（3個月）排程</div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-season')">取消</button>
+      <button class="btn btn-primary" onclick="confirmAddSeason()">確認新增</button>
+    </div>
+  </div>
+</div>
+
+<!-- 設定上課時間 -->
+<div class="overlay" id="modal-set-time">
+  <div class="modal">
+    <div class="modal-title">設定上課時間</div>
+    <div style="font-size:14px;color:var(--text);margin-bottom:12px" id="set-time-label"></div>
+    <div class="form-row">
+      <div class="form-group"><label>開始時間</label><input id="time-start" type="time" value="10:00"></div>
+      <div class="form-group"><label>結束時間</label><input id="time-end" type="time" value="11:00"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-set-time')">取消</button>
+      <button class="btn btn-primary" onclick="confirmSetTime()">確認</button>
     </div>
   </div>
 </div>
@@ -546,6 +592,10 @@ input, textarea, select, button { font-family: inherit; }
     <div class="modal-title">指定課表</div>
     <div style="font-size:14px;color:var(--text);margin-bottom:12px" id="assign-date-label"></div>
     <div class="form-group"><label>選擇課表</label><select id="assign-workout-sel"></select></div>
+    <div class="form-group">
+      <label>當日課表備註（微調說明）</label>
+      <textarea id="assign-note" placeholder="例如：深蹲改為 3 組、跳過第三個動作..." style="min-height:80px"></textarea>
+    </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-assign-workout')">取消</button>
       <button class="btn btn-primary" onclick="confirmAssignWorkout()">確認</button>
@@ -606,6 +656,8 @@ input, textarea, select, button { font-family: inherit; }
 
 <div id="toast" class="tn"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 const KEY = 'fitness_v8';
@@ -662,7 +714,8 @@ let purId=null,editId=null,addCls=[],editCls=[];
 let selCI='',selSF='all';
 let editClassId=null,editWorkoutId=null,viewWorkoutId=null;
 let assignDate=null,assignClassId=null;
-let retroDates=[],currentDetailId=null,cmClassId=null,cmTab='active';
+let retroDates=[],editRetroDates=[],currentDetailId=null,cmClassId=null,cmTab='active';
+let setTimeDate=null,setTimeClassId=null;
 let pauseTargetId=null,resumeTargetId=null,resumePauseIdx=null;
 let pendingRetroLeaves=[];
 
@@ -1188,13 +1241,44 @@ function addStudent(){
 }
 function openEdit(id){
   const s=state.students.find(x=>x.id===id);if(!s)return;
-  editId=id;editCls=[...(s.classIds||[])];
+  editId=id;editCls=[...(s.classIds||[])];editRetroDates=[];
   document.getElementById('e-name').value=s.name;document.getElementById('e-phone').value=s.phone||'';document.getElementById('e-note').value=s.note||'';document.getElementById('e-join').value=s.joinDate||'';
-  renderClsChips('e-cls',editCls,'togE');showDur('e-join','e-join-out');openModal('modal-edit');
+  renderClsChips('e-cls',editCls,'togE');showDur('e-join','e-join-out');
+  const sel=document.getElementById('e-retro-cls');
+  sel.innerHTML=state.classes.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  document.getElementById('e-retro-date').value=new Date().toISOString().slice(0,10);
+  renderEditRetroDates();
+  openModal('modal-edit');
 }
+function renderEditRetroDates(){
+  const el=document.getElementById('e-retro-list');
+  if(!editRetroDates.length){el.innerHTML='';return;}
+  el.innerHTML=editRetroDates.map((r,i)=>{const cls=getCls(r.classId);return`<div class="retro-item"><span>${fmtDate(r.date)} ${cls?`<span style="font-size:10px;background:${cls.bg};color:${cls.color};padding:1px 6px;border-radius:8px">${cls.name}</span>`:''}</span><button class="btn btn-red btn-sm" onclick="removeEditRetro(${i})">x</button></div>`;}).join('');
+}
+function addEditRetroDate(){
+  const date=document.getElementById('e-retro-date').value;const classId=document.getElementById('e-retro-cls').value;
+  if(!date||!classId){toast('請選擇日期和班別','w');return;}
+  if(editRetroDates.find(r=>r.date===date&&r.classId===classId)){toast('此日期已加入','w');return;}
+  const exists=state.history.find(h=>h.studentId===editId&&h.classId===classId&&h.date===date);
+  if(exists){toast('此日期已有紀錄','w');return;}
+  editRetroDates.push({date,classId});editRetroDates.sort((a,b)=>a.date.localeCompare(b.date));renderEditRetroDates();
+}
+function removeEditRetro(i){editRetroDates.splice(i,1);renderEditRetroDates();}
 function confirmEdit(){
   const s=state.students.find(x=>x.id===editId);if(!s)return;
   s.name=document.getElementById('e-name').value.trim()||s.name;s.phone=document.getElementById('e-phone').value.trim();s.classIds=[...editCls];s.note=document.getElementById('e-note').value.trim();s.joinDate=document.getElementById('e-join').value;
+  // process retro checkin dates - deduct sessions
+  if(editRetroDates.length){
+    editRetroDates.forEach(r=>{
+      if(s.remainingSessions>0){
+        s.remainingSessions-=1;
+        state.history.push({studentId:s.id,classId:r.classId,date:r.date,time:'00:00',type:'retroactive',remainingAfter:s.remainingSessions});
+      }
+    });
+    // recalc remainingAfter for all retro entries of this student in order
+    let rem=s.totalSessions;
+    state.history.filter(h=>h.studentId===s.id&&(h.type==='retroactive'||h.type==='checkin'||h.type==='unexcused')).sort((a,b)=>a.date.localeCompare(b.date)).forEach(h=>{rem=Math.max(0,rem-1);h.remainingAfter=rem;});
+  }
   save();renderAll();closeModal('modal-edit');toast('學員資料已更新');
 }
 function openPur(id){
@@ -1265,15 +1349,54 @@ function viewSchedule(clsId){
   document.getElementById('sch-list').innerHTML=future.map(d=>{
     const cancelled=cls.cancelled&&cls.cancelled.includes(d);
     const wo=cls.assignments&&cls.assignments[d]?state.workouts.find(w=>w.id===cls.assignments[d]):null;
-    return`<div class="schedule-date-item ${cancelled?'cancelled':'normal'}">
-      <span>${fmtDate(d)}（${WEEKDAYS[new Date(d).getDay()]}）</span>
-      <div style="display:flex;gap:5px;align-items:center">
-        ${wo?`<span class="course-tag" onclick="viewWorkout('${wo.id}')">${wo.num}</span>`:''}
-        ${!cancelled?`<button class="btn btn-sm" style="font-size:10px;padding:3px 7px" onclick="assignWorkoutToDate('${d}')">指定課表</button><button class="btn btn-red btn-sm" style="font-size:10px;padding:3px 7px" onclick="cancelDate('${clsId}','${d}')">停課</button>`:`<button class="btn btn-sm" style="font-size:10px;padding:3px 7px" onclick="restoreDate('${clsId}','${d}')">恢復</button>`}
+    const note=cls.scheduleNotes&&cls.scheduleNotes[d]?cls.scheduleNotes[d]:'';
+    const timeInfo=cls.times&&cls.times[d]?cls.times[d]:'';
+    return`<div class="schedule-date-item ${cancelled?'cancelled':'normal'}" style="flex-direction:column;align-items:flex-start;gap:5px">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+        <div>
+          <span style="font-weight:600">${fmtDate(d)}（${WEEKDAYS[new Date(d).getDay()]}）</span>
+          ${timeInfo?`<span style="font-size:11px;color:var(--primary);background:var(--primary-pale);padding:1px 7px;border-radius:8px;margin-left:6px">${timeInfo}</span>`:''}
+        </div>
+        <div style="display:flex;gap:4px;align-items:center;flex-shrink:0">
+          ${wo?`<span class="course-tag" onclick="viewWorkout('${wo.id}')" style="cursor:pointer">${wo.num}</span>`:''}
+          ${!cancelled?`<button class="btn btn-sm" style="font-size:10px;padding:2px 6px" onclick="openSetTime('${clsId}','${d}')">時間</button><button class="btn btn-sm" style="font-size:10px;padding:2px 6px" onclick="assignWorkoutToDate('${d}')">課表</button><button class="btn btn-red btn-sm" style="font-size:10px;padding:2px 6px" onclick="cancelDate('${clsId}','${d}')">停課</button>`:`<button class="btn btn-sm" style="font-size:10px;padding:2px 6px" onclick="restoreDate('${clsId}','${d}')">恢復</button>`}
+        </div>
       </div>
-    </div>`;
+      ${note?`<div style="font-size:11px;color:#6B44A0;background:var(--accent1-pale);padding:3px 8px;border-radius:6px;width:100%">備註：${note}</div>`:''}`+
+      `</div>`;
   }).join('');
   openModal('modal-schedule');
+}
+function openAddSeasonModal(){
+  document.getElementById('season-start').value=new Date().toISOString().slice(0,10);
+  openModal('modal-add-season');
+}
+function confirmAddSeason(){
+  const cls=getCls(assignClassId);if(!cls)return;
+  const start=document.getElementById('season-start').value;
+  if(!start){toast('請選擇起始日期','w');return;}
+  if(!cls.weekdays||!cls.weekdays.length){toast('請先設定每週上課日','w');return;}
+  const newDates=genSeasonDates(start,cls.weekdays);
+  const existing=new Set(cls.dates||[]);
+  newDates.forEach(d=>{if(!existing.has(d))cls.dates.push(d);});
+  cls.dates.sort();
+  save();closeModal('modal-add-season');viewSchedule(assignClassId);toast('已新增排程');
+}
+function openSetTime(clsId,date){
+  setTimeClassId=clsId;setTimeDate=date;
+  document.getElementById('set-time-label').textContent=fmtDate(date)+' 上課時間';
+  const cls=getCls(clsId);
+  const existing=cls&&cls.times&&cls.times[date]?cls.times[date]:'';
+  if(existing){const parts=existing.split('-');document.getElementById('time-start').value=parts[0]||'10:00';document.getElementById('time-end').value=parts[1]||'11:00';}
+  else{document.getElementById('time-start').value='10:00';document.getElementById('time-end').value='11:00';}
+  openModal('modal-set-time');
+}
+function confirmSetTime(){
+  const cls=getCls(setTimeClassId);if(!cls)return;
+  const s=document.getElementById('time-start').value;const e=document.getElementById('time-end').value;
+  if(!cls.times)cls.times={};
+  if(s&&e)cls.times[setTimeDate]=s+'-'+e;else delete cls.times[setTimeDate];
+  save();closeModal('modal-set-time');viewSchedule(setTimeClassId);toast('上課時間已儲存');
 }
 function cancelDate(clsId,date){const cls=getCls(clsId);if(!cls)return;if(!cls.cancelled)cls.cancelled=[];if(!cls.cancelled.includes(date))cls.cancelled.push(date);save();viewSchedule(clsId);toast('已標記停課');}
 function restoreDate(clsId,date){const cls=getCls(clsId);if(!cls)return;cls.cancelled=(cls.cancelled||[]).filter(d=>d!==date);save();viewSchedule(clsId);toast('已恢復上課');}
@@ -1282,13 +1405,19 @@ function assignWorkoutToDate(date){
   document.getElementById('assign-date-label').textContent=fmtDate(date)+' 指定課表';
   const sel=document.getElementById('assign-workout-sel');
   sel.innerHTML=`<option value="">（不指定）</option>`+state.workouts.map(w=>`<option value="${w.id}">${w.num}</option>`).join('');
-  const cls=getCls(assignClassId);if(cls&&cls.assignments&&cls.assignments[date])sel.value=cls.assignments[date];
+  const cls=getCls(assignClassId);
+  if(cls&&cls.assignments&&cls.assignments[date])sel.value=cls.assignments[date];
+  const existingNote=cls&&cls.scheduleNotes&&cls.scheduleNotes[date]?cls.scheduleNotes[date]:'';
+  document.getElementById('assign-note').value=existingNote;
   openModal('modal-assign-workout');
 }
 function confirmAssignWorkout(){
   const cls=getCls(assignClassId);if(!cls)return;if(!cls.assignments)cls.assignments={};
   const val=document.getElementById('assign-workout-sel').value;
   if(val)cls.assignments[assignDate]=val;else delete cls.assignments[assignDate];
+  if(!cls.scheduleNotes)cls.scheduleNotes={};
+  const note=document.getElementById('assign-note').value.trim();
+  if(note)cls.scheduleNotes[assignDate]=note;else delete cls.scheduleNotes[assignDate];
   save();closeModal('modal-assign-workout');viewSchedule(assignClassId);toast('課表已指定');
 }
 
@@ -1323,7 +1452,7 @@ function showConfirm(s,classId){
   document.getElementById('cf-remain').textContent='剩餘 '+s.remainingSessions+' 堂';
   document.getElementById('cf-expire-txt').textContent=s.expireDate?'課程到期日：'+s.expireDate:'';
   const w=document.getElementById('cf-warn');
-  if(isEmpty(s)){w.textContent='堂數已全數用完，請盡快補購';w.style.display='block';}
+  if(isEmpty(s)){w.textContent='堂數用完囉！恭喜妳又完成一個階段的訓練，好好休息，期待下一輪的精彩！';w.style.background='var(--accent2-pale)';w.style.color='#2D8B72';w.style.borderColor='var(--accent2)';w.style.display='block';}
   else if(s.remainingSessions===1){w.textContent='下次上課前請記得補購堂數';w.style.display='block';}
   else if(isLow(s)){w.textContent='堂數僅剩'+s.remainingSessions+'堂，建議盡快補購';w.style.display='block';}
   else{w.style.display='none';}
@@ -1376,7 +1505,7 @@ function doRecordShot(){
 }
 function doCI(studentId,classId){
   const s=state.students.find(x=>x.id===studentId);
-  if(!s||isEmpty(s)){toast('堂數已用完','d');return;}
+  if(!s||isEmpty(s)){toast('堂數已全數使用完畢，請先補購再繼續','d');return;}
   s.remainingSessions-=1;
   state.history.push({studentId,classId,date:selDate(),time:nowT(),type:'checkin',remainingAfter:s.remainingSessions});
   save();renderAll();showConfirm(s,classId);
@@ -1411,20 +1540,17 @@ const FIREBASE_CONFIG = {
 let db = null;
 let firebaseReady = false;
 
-async function initFirebase() {
+function initFirebase() {
   try {
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const { getFirestore, doc, setDoc, getDoc, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const app = initializeApp(FIREBASE_CONFIG);
-    db = getFirestore(app);
+    if (!firebase || !firebase.apps) { updateSyncStatus('離線模式'); return; }
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
     firebaseReady = true;
 
-    // Listen for real-time updates from Firebase
-    const docRef = doc(db, 'app', 'state');
-    onSnapshot(docRef, (snap) => {
-      if (snap.exists()) {
+    // Listen for real-time updates
+    db.collection('app').doc('state').onSnapshot((snap) => {
+      if (snap.exists) {
         const remote = snap.data();
-        // Only update if remote is newer
         if (!state._updatedAt || (remote._updatedAt && remote._updatedAt > state._updatedAt)) {
           state = remote;
           if (!state.students) state.students = [];
@@ -1437,26 +1563,25 @@ async function initFirebase() {
           renderAll();
         }
       }
+    }, (err) => {
+      console.warn('Firestore listen error:', err);
+      updateSyncStatus('同步失敗');
     });
 
     updateSyncStatus('已連線');
-    console.log('Firebase connected');
   } catch(e) {
     console.warn('Firebase init failed:', e);
     updateSyncStatus('離線模式');
   }
 }
 
-async function saveToFirebase() {
+function saveToFirebase() {
   if (!firebaseReady || !db) return;
-  try {
-    const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    state._updatedAt = Date.now();
-    await setDoc(doc(db, 'app', 'state'), state);
-  } catch(e) {
+  state._updatedAt = Date.now();
+  db.collection('app').doc('state').set(state).catch(e => {
     console.warn('Firebase save failed:', e);
     updateSyncStatus('同步失敗');
-  }
+  });
 }
 
 function updateSyncStatus(msg) {
