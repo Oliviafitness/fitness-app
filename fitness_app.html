@@ -215,9 +215,100 @@ input, textarea, select, button { font-family: inherit; }
 /* Class member list */
 .class-member-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px dashed var(--border); }
 .class-member-item:last-child { border-bottom: none; }
+
+/* Splash screen */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #FEF2AA;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.6s ease;
+}
+#splash.hide { opacity: 0; pointer-events: none; }
+.splash-dumbbell { margin-bottom: 28px; }
+.splash-text {
+  font-family: 'Gafata', 'Georgia', serif;
+  color: #75542B;
+  text-align: center;
+  line-height: 1.5;
+}
+.splash-hello {
+  font-size: 28px;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.7s ease 0.4s forwards;
+}
+.splash-sub {
+  font-size: 17px;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease 0.75s forwards;
+  margin-top: 6px;
+}
+.splash-bar {
+  width: 0; height: 3px;
+  background: #75542B;
+  border-radius: 2px;
+  margin-top: 28px;
+  animation: barGrow 1.6s ease 0.3s forwards;
+  opacity: 0.5;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes barGrow {
+  to { width: 180px; }
+}
+/* dumbbell draw animation */
+.db-path { stroke-dasharray: 400; stroke-dashoffset: 400; animation: drawPath 1s ease 0.1s forwards; }
+.db-path2 { stroke-dasharray: 400; stroke-dashoffset: 400; animation: drawPath 1s ease 0.3s forwards; }
+@keyframes drawPath { to { stroke-dashoffset: 0; } }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Gafata&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- Splash Screen -->
+<div id="splash">
+  <div class="splash-dumbbell">
+    <svg width="160" height="90" viewBox="0 0 160 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left weight plate outer -->
+      <rect class="db-path" x="8" y="18" width="22" height="54" rx="7" fill="#E8C97A" stroke="#C4973A" stroke-width="2"/>
+      <!-- Left weight plate inner -->
+      <rect class="db-path" x="14" y="26" width="10" height="38" rx="4" fill="#F5DFA0" stroke="#C4973A" stroke-width="1.5"/>
+      <!-- Right weight plate outer -->
+      <rect class="db-path2" x="130" y="18" width="22" height="54" rx="7" fill="#E8C97A" stroke="#C4973A" stroke-width="2"/>
+      <!-- Right weight plate inner -->
+      <rect class="db-path2" x="136" y="26" width="10" height="38" rx="4" fill="#F5DFA0" stroke="#C4973A" stroke-width="1.5"/>
+      <!-- Bar -->
+      <rect class="db-path" x="30" y="38" width="100" height="14" rx="5" fill="#D4A843" stroke="#B8872A" stroke-width="1.5"/>
+      <!-- Bar highlight -->
+      <rect x="34" y="41" width="92" height="4" rx="2" fill="#F0CC70" opacity="0.7"/>
+      <!-- Left collar -->
+      <rect class="db-path" x="26" y="34" width="10" height="22" rx="3" fill="#C49030" stroke="#A07020" stroke-width="1.5"/>
+      <!-- Right collar -->
+      <rect class="db-path2" x="124" y="34" width="10" height="22" rx="3" fill="#C49030" stroke="#A07020" stroke-width="1.5"/>
+      <!-- Colorful accent lines on left plate -->
+      <line x1="10" y1="35" x2="10" y2="55" stroke="#E8624A" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+      <line x1="14" y1="30" x2="14" y2="60" stroke="#5BA4CF" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+      <line x1="18" y1="27" x2="18" y2="63" stroke="#8DC153" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+      <!-- Colorful accent lines on right plate -->
+      <line x1="150" y1="35" x2="150" y2="55" stroke="#E8624A" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+      <line x1="146" y1="30" x2="146" y2="60" stroke="#5BA4CF" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+      <line x1="142" y1="27" x2="142" y2="63" stroke="#8DC153" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+      <!-- Shadow -->
+      <ellipse cx="80" cy="84" rx="48" ry="4" fill="#C4973A" opacity="0.18"/>
+    </svg>
+  </div>
+  <div class="splash-text">
+    <div class="splash-hello">Hello, Olivia!</div>
+    <div class="splash-sub">Today's gonna be a great day!</div>
+  </div>
+  <div class="splash-bar"></div>
+</div>
+
 <div class="app">
   <div class="header">
     <div class="header-top">
@@ -1658,6 +1749,15 @@ async function exportExcel() {
 }
 
 // Init Firebase on load
+// Splash screen
+setTimeout(() => {
+  const splash = document.getElementById('splash');
+  if (splash) {
+    splash.classList.add('hide');
+    setTimeout(() => { splash.style.display = 'none'; }, 650);
+  }
+}, 2800);
+
 initFirebase();
 load();
 </script>
